@@ -19444,7 +19444,7 @@ exports = module.exports = __webpack_require__(34)(false);
 
 
 // module
-exports.push([module.i, "\n.text-bold[data-v-46d89fba] {\n    font-weight: 700;\n}\n.text-muted[data-v-46d89fba] {\n    color: #dcdcdc;\n}\n.filter-type-toggle[data-v-46d89fba] {\n    margin-bottom: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.text-bold[data-v-46d89fba] {\n    font-weight: 700;\n}\n.text-muted[data-v-46d89fba] {\n    color: #dcdcdc;\n}\n.filter-type-toggle[data-v-46d89fba] {\n    margin-bottom: 15px;\n}\n.list[data-v-46d89fba] { margin-top: 25px;\n}\n.page-nav[data-v-46d89fba] {margin-top: 15px;\n}\n.page-nav ul[data-v-46d89fba] {margin: auto; width: 100px; list-style: none; padding-left: 0px;\n}\n.page-nav ul li[data-v-46d89fba] {float: left; padding: 5px;\n}\n.page-nav ul li.current span[data-v-46d89fba] {border-radius: 3px; border: 1px solid #ddd; display: block; padding: 0px 8px;\n}\n", ""]);
 
 // exports
 
@@ -19519,27 +19519,57 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "FilterAndInvoiceListComponent",
     created: function created() {
-        this.loadInvoices();
+        var currentInvoicesUri = '/api/invoices/?page=1';
+        this.loadInvoices(currentInvoicesUri);
     },
     data: function data() {
         return {
+            currentPage: 1,
+            previousPageUrl: null,
+            nextPageUrl: null,
             invoices: [],
             searchType: 'basic-filter',
             basicSearchStr: ''
         };
     },
     methods: {
-        loadInvoices: function loadInvoices() {
+        loadInvoices: function loadInvoices(currentPageUri) {
             var _this = this;
 
-            axios.get('/api/invoices/?searchStr=' + this.basicSearchStr).then(function (response) {
+            if (currentPageUri != null) {
+                currentPageUri += '&searchStr=' + this.basicSearchStr;
+            } else {
+                currentPageUri = '/api/invoices/?page=1';
+                this.basicSearchStr = null;
+            }
+            axios.get(currentPageUri).then(function (response) {
                 response = response.data;
                 if (response.success) {
                     _this.invoices = response.invoices.data;
+                    _this.previousPageUrl = response.invoices.prev_page_url;
+                    _this.currentPage = response.invoices.current_page;
+                    _this.nextPageUrl = response.invoices.next_page_url;
                 } else {
                     console.error(response.error);
                 }
@@ -19581,6 +19611,7 @@ var render = function() {
             {
               staticClass: "btn btn-default",
               class: { active: _vm.searchType === "advance-filter" },
+              attrs: { disabled: "" },
               on: {
                 click: function($event) {
                   _vm.searchType = "advance-filter"
@@ -19609,23 +19640,60 @@ var render = function() {
           _c("div", { staticClass: "form-inline" }, [
             _c("div", { staticClass: "form-group" }, [
               _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.basicSearchStr,
+                    expression: "basicSearchStr"
+                  }
+                ],
                 staticClass: "form-control",
                 attrs: {
                   placeholder:
                     "Type the text or keyword you want to search here"
                 },
-                domProps: { value: _vm.basicSearchStr }
+                domProps: { value: _vm.basicSearchStr },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.basicSearchStr = $event.target.value
+                  }
+                }
               }),
               _vm._v(" "),
               _c(
                 "button",
                 {
-                  staticClass: "btn btn-default",
-                  on: { click: _vm.loadInvoices }
+                  staticClass: "btn btn-primary",
+                  on: {
+                    click: function($event) {
+                      _vm.loadInvoices("/api/invoices/?page=1")
+                    }
+                  }
                 },
                 [
                   _vm._v(
                     "\n                        SEARCH\n                    "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-default",
+                  on: {
+                    click: function($event) {
+                      _vm.loadInvoices(null)
+                    }
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                        RESET\n                    "
                   )
                 ]
               )
@@ -19724,7 +19792,49 @@ var render = function() {
             )
           ])
         : _vm._e()
-    ])
+    ]),
+    _vm._v(" "),
+    _vm.invoices.length > 0
+      ? _c("div", { staticClass: "page-nav" }, [
+          _c("ul", [
+            _vm.previousPageUrl != null
+              ? _c(
+                  "li",
+                  {
+                    on: {
+                      click: function($event) {
+                        _vm.loadInvoices(_vm.previousPageUrl)
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "glyphicon glyphicon-chevron-left" })]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c("li", { staticClass: "current" }, [
+              _c("span", [_vm._v(_vm._s(this.currentPage))])
+            ]),
+            _vm._v(" "),
+            _vm.nextPageUrl != null
+              ? _c(
+                  "li",
+                  {
+                    on: {
+                      click: function($event) {
+                        _vm.loadInvoices(_vm.nextPageUrl)
+                      }
+                    }
+                  },
+                  [
+                    _c("i", {
+                      staticClass: "glyphicon glyphicon-chevron-right"
+                    })
+                  ]
+                )
+              : _vm._e()
+          ])
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -19937,6 +20047,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "CreateNewInvoiceComponent",
@@ -19946,6 +20072,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             form_msg_type: 'success',
             form_data: {
                 client_name: '',
+                email: '',
+                phone: null,
                 business_name: '',
                 business_number: '',
                 address: '',
@@ -20117,6 +20245,61 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
+                          value: _vm.form_data.email,
+                          expression: "form_data.email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "email" },
+                      domProps: { value: _vm.form_data.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form_data, "email", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form_data.phone,
+                          expression: "form_data.phone"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      domProps: { value: _vm.form_data.phone },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form_data, "phone", $event.target.value)
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _vm._m(3),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
                           value: _vm.form_data.business_name,
                           expression: "form_data.business_name"
                         }
@@ -20140,7 +20323,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _vm._m(2),
+                  _vm._m(4),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("input", {
@@ -20171,7 +20354,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _vm._m(3),
+                  _vm._m(5),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("input", {
@@ -20202,7 +20385,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _vm._m(4),
+                  _vm._m(6),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("input", {
@@ -20254,7 +20437,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _vm._m(5),
+                  _vm._m(7),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
                     _c("input", {
@@ -20318,6 +20501,22 @@ var staticRenderFns = [
       _c("label", { staticClass: "form-inline" }, [
         _vm._v("Customer/Client Name")
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("label", { staticClass: "form-inline" }, [_vm._v("Email Contact")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("label", { staticClass: "form-inline" }, [_vm._v("Phone Contact")])
     ])
   },
   function() {
