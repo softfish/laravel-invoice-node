@@ -2,6 +2,14 @@
 
 @section('content')
     <div class="row" id="edit-invoice-app" data-jsoninvoiceData="{{json_encode($invoice)}}" v-cloak>
+        <div class="maskon-wrapper" v-if="maskon">
+            <div class="maskon"></div>
+            @if (file_exists(public_path().'/images/loading.gif'))
+                <img class="loading" src="{{ asset('images/loading.gif') }}"/>
+            @else
+                <h3 class="loading">Loading...</h3>
+            @endif
+        </div>
         <div class="container">
 
             <nav aria-label="breadcrumb">
@@ -104,7 +112,7 @@
                             <tr>
                                 <td></td>
                                 <td class="text-right">
-                                    <div class="btn-group btn-group">
+                                    <div class="btn-group">
                                         <div class="btn"
                                              :class="{'btn-primary': (invoice.is_editable), 'btn-default': !invoice.is_editable}"
                                              :disabled="(!invoice.is_editable)"
@@ -131,20 +139,20 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="panel-footer">
-                        <div class="btn-group">
-                            @if (in_array($invoice->status, ['issued', 'paid']))
+                    @if (in_array($invoice->status, ['issued', 'paid']))
+                        <div class="panel-footer">
+                            <div class="btn-group">
                                 <a class="float-right btn btn-default" href="{{ url('/innov/invoices/'.$invoice->id.'/resend?event=invoice-issued')}}">
                                     <i class="glyphicon glyphicon-envelope"></i> Resend Invoice to Customer
                                 </a>
-                            @endif
-                            @if ($invoice->status === 'paid')
-                                <a class="float-right btn btn-default" href="{{ url('/innov/invoices/'.$invoice->id.'/resend?event=payment-confirmed')}}">
-                                    <i class="glyphicon glyphicon-envelope"></i> Resend Payment Confirmation Email
-                                </a>
-                            @endif
+                                @if ($invoice->status === 'paid')
+                                    <a class="float-right btn btn-default" href="{{ url('/innov/invoices/'.$invoice->id.'/resend?event=payment-confirmed')}}">
+                                        <i class="glyphicon glyphicon-envelope"></i> Resend Payment Confirmation Email
+                                    </a>
+                                @endif
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
             <div class="col-md-6 col-sm-12">
@@ -222,6 +230,10 @@
     .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
         opacity: 0;
     }
+    select.form-control {height: 34px !important;}
+    .maskon-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 999; background-color: #333; opacity: 0.7;}
+    .maskon {z-index: 1000; width: 100%; height: 100%;}
+    .maskon-wrapper .loading {z-index: 1001; position: fixed; top: calc(40%); left: calc(50% - 100px); width: 200px;}
 </style>
 
 @endsection

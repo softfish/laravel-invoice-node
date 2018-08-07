@@ -16,14 +16,18 @@
             </div>
             <div class="basic-filer" v-show="searchType === 'basic-filter'">
                 <div class="form-inline">
-                    <div class="form-group">
+                    <div class="input-group input-group-sm">
                         <input class="form-control" placeholder="Type the text or keyword you want to search here" v-model="basicSearchStr">
-                        <button class="btn btn-primary" v-on:click="loadInvoices('/api/invoices/?page=1')">
-                            SEARCH
-                        </button>
-                        <button class="btn btn-default" v-on:click="loadInvoices(null)">
-                            RESET
-                        </button>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" v-on:click="loadInvoices('/api/invoices/?page=1')">
+                                SEARCH
+                            </button>
+                        </span>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" v-on:click="loadInvoices(null)">
+                                RESET
+                            </button>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -140,4 +144,5 @@
     .page-nav ul {margin: auto; width: 100px; list-style: none; padding-left: 0px;}
     .page-nav ul li {float: left; padding: 5px;}
     .page-nav ul li.current span {border-radius: 3px; border: 1px solid #ddd; display: block; padding: 0px 8px;}
+    .basic-filer .input-group-sm input { width: 195px;}
 </style>
