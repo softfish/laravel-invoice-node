@@ -3,8 +3,10 @@
 
 # Laravel Invoice Node
 
-<p align="center">
-</p>
+
+[![Latest Stable Version](https://poser.pugx.org/feikwok/laravel-invoice-node/v/stable)](https://packagist.org/packages/feikwok/laravel-invoice-node)
+[![Total Downloads](https://poser.pugx.org/feikwok/laravel-invoice-node/downloads)](https://packagist.org/packages/feikwok/laravel-invoice-node)
+[![License](https://poser.pugx.org/feikwok/laravel-invoice-node/license)](https://packagist.org/packages/feikwok/laravel-invoice-node)
 
 ## Overview
 
