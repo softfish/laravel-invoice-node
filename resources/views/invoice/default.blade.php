@@ -24,14 +24,14 @@
     <tr>
         <td>
             <div class="logo">
-                @if (file_exists(public_path('/vendor/feikwok/invoice-nova/images/stripepayment-logo.png')))
-                    <img src="{{ public_path('/vendor/feikwok/invoice-nova/images/stripepayment-logo.png') }}" />
+                @if (file_exists(public_path('/vendor/feikwok/invoice-node/images/stripepayment-logo.png')))
+                    <img src="{{ public_path('/vendor/feikwok/invoice-node/images/stripepayment-logo.png') }}" />
                 @endif
                 <div class="trading-as">
-                    <label style="display: inline-block; font-weight: 700; width: 100px;">T/As</label> <span style="width: 100%;">{{ config('invoice-nova.trading_as') }}</span><br />
-                    <label style="display: inline-block; font-weight: 700; width: 100px;">A.B.N.</label> <span style="width: 100%;">{{ config('invoice-nova.abn') }}</span><br />
-                    <label style="display: inline-block; font-weight: 700; width: 100px;">Ph:</label> <span style="width: 100%;">{{ config('invoice-nova.phone') }}</span><br />
-                    <label style="display: inline-block; font-weight: 700; width: 100px;">e-mail:</label> <span style="width: 100%;">{{ config('invoice-nova.email') }}</span>
+                    <label style="display: inline-block; font-weight: 700; width: 100px;">T/As</label> <span style="width: 100%;">{{ config('invoice-node.trading_as') }}</span><br />
+                    <label style="display: inline-block; font-weight: 700; width: 100px;">A.B.N.</label> <span style="width: 100%;">{{ config('invoice-node.abn') }}</span><br />
+                    <label style="display: inline-block; font-weight: 700; width: 100px;">Ph:</label> <span style="width: 100%;">{{ config('invoice-node.phone') }}</span><br />
+                    <label style="display: inline-block; font-weight: 700; width: 100px;">e-mail:</label> <span style="width: 100%;">{{ config('invoice-node.email') }}</span>
                 </div>
             </div>
         </td>
@@ -49,7 +49,7 @@
                     </td>
                     <td style="width: 60%; text-align: right;">
                         <h2>Tax Invoice</h2>
-                        <div><label style="display: inline-block; font-weight: 700; width: 100px;">Invoice No:</label> {{ config('invoice-nova.invoice_prefix').$invoice->id }}</div>
+                        <div><label style="display: inline-block; font-weight: 700; width: 100px;">Invoice No:</label> {{ config('invoice-node.invoice_prefix').$invoice->id }}</div>
                         <div><label style="display: inline-block; font-weight: 700; width: 100px;">Date:</label> {{ Carbon\Carbon::parse($invoice->issued_at)->format('d,M Y') }}</div>
                         <div style="font-size: 30px; font-weight: 700; margin-top: 25px; margin-bottom: 40px; color:#c8c8c8;">Total Payable: ${{ number_format($invoice->total_amount,2) }}</div>
                     </td>
@@ -110,9 +110,9 @@
                         <div>
                             <h3>How to Pay</h3>
                             <h4>Via EFT or<br> Scan the QR Code</h4>
-                            <label style="display: block; font-weight: 700;">Bank:</label> <span>{{ config('invoice-nova.bank_name') }}</span><br />
-                            <label style="display: block; font-weight: 700;">BSB:</label> <span>{{ config('invoice-nova.bsb') }}</span><br />
-                            <label style="display: block; font-weight: 700;">A/C:</label> <span>{{ config('invoice-nova.bank_account_number') }}</span>
+                            <label style="display: block; font-weight: 700;">Bank:</label> <span>{{ config('invoice-node.bank_name') }}</span><br />
+                            <label style="display: block; font-weight: 700;">BSB:</label> <span>{{ config('invoice-node.bsb') }}</span><br />
+                            <label style="display: block; font-weight: 700;">A/C:</label> <span>{{ config('invoice-node.bank_account_number') }}</span>
                         </div>
                         <img style="position: absolute; right:0px; top: 0px;" src="data:image/png;base64, {{ base64_encode($qrImage) }} ">
                     </td>
@@ -120,15 +120,15 @@
                         <table class="invoice-conclusion" style="width: 85%; float: right; margin-right: -55px; margin-top: 25px;">
                             <tr>
                                 <td><label style="display: inline-block; font-weight: 700;">Ph:</label></td>
-                                <td style="text-align: right;"><span>{{ config('invoice-nova.phone') }}</span></td>
+                                <td style="text-align: right;"><span>{{ config('invoice-node.phone') }}</span></td>
                             </tr>
                             <tr>
                                 <td><label style="display: inline-block; font-weight: 700;">Email:</label></td>
-                                <td style="text-align: right;"><span>{{ config('invoice-nova.email') }}</span></td>
+                                <td style="text-align: right;"><span>{{ config('invoice-node.email') }}</span></td>
                             </tr>
                             <tr>
                                 <td><label style="display: inline-block; font-weight: 700;">INV #:</label></td>
-                                <td style="text-align: right;"><span>{{ config('invoice-nova.invoice_prefix').$invoice->id }}</span></td>
+                                <td style="text-align: right;"><span>{{ config('invoice-node.invoice_prefix').$invoice->id }}</span></td>
                             </tr>
                             <tr>
                                 <td><label style="display: inline-block; font-weight: 700;">Terms:</label></td>

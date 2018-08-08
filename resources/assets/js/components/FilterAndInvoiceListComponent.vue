@@ -84,8 +84,12 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
+    import store from '../store/app-store.js'
+
     export default {
         name: "FilterAndInvoiceListComponent",
+
         created: function() {
            var currentInvoicesUri = '/api/invoices/?page=1';
             this.loadInvoices(currentInvoicesUri);
@@ -95,11 +99,13 @@
               currentPage: 1,
               previousPageUrl: null,
               nextPageUrl: null,
-              invoices: [],
               searchType: 'basic-filter',
               basicSearchStr: '',
           };
         },
+        computed: mapState({
+            invoices: state => state.invoices,
+        }),
         methods: {
             loadInvoices: function (currentPageUri) {
                 if (currentPageUri != null) {
@@ -112,7 +118,7 @@
                     .then((response) => {
                         response = response.data;
                         if (response.success) {
-                            this.invoices = response.invoices.data;
+                            store.commit('SET_INVOICES', response.invoices.data);
                             this.previousPageUrl = response.invoices.prev_page_url;
                             this.currentPage = response.invoices.current_page;
                             this.nextPageUrl = response.invoices.next_page_url;

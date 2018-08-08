@@ -1,8 +1,8 @@
 <?php
 
-namespace Feikwok\InvoiceNova\Events;
+namespace Feikwok\InvoiceNode\Events;
 
-use Feikwok\InvoiceNova\Models\Invoice;
+use Feikwok\InvoiceNode\Models\Invoice;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;

@@ -56,7 +56,7 @@ new Vue({
                         this.alert.message = 'New bill entry has been added to this invoice';
                         this.alert.type = 'success';
                         this.invoice = response.invoice;
-                        this.beFrom = {
+                        this.beForm = {
                           description: null,
                           charge: null,
                           position: null,

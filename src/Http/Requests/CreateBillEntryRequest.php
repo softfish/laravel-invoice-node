@@ -1,7 +1,7 @@
 <?php
-namespace Feikwok\InvoiceNova\Http\Requests;
+namespace Feikwok\InvoiceNode\Http\Requests;
 
-use Feikwok\InvoiceNova\Http\Requests\Traits\ApiErrorValidationTrail;
+use Feikwok\InvoiceNode\Http\Requests\Traits\ApiErrorValidationTrail;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateBillEntryRequest extends FormRequest

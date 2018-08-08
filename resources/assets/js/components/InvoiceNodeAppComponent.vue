@@ -19,7 +19,7 @@
     import CreateNewInvoiceComponent from './CreateNewInvoiceComponent.vue';
 
     export default {
-        name: "InvoiceNovaAppComponent",
+        name: "InvoiceNodeAppComponent",
         components: {
             'filter-and-list': FilterAndInvoiceListComponent,
             'create-new-invoice': CreateNewInvoiceComponent,

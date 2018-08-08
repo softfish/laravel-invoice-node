@@ -218,7 +218,7 @@
         </div>
     </div>
 
-<script src="{{ asset('vendor/feikwok/laravel-invoice-nova/js/edit-invoice.js') }}"></script>
+<script src="{{ asset('vendor/feikwok/laravel-invoice-node/js/edit-invoice.js') }}"></script>
 <style>
     [v-cloak] {display: none}
     .float-left {float: left;}

@@ -1,8 +1,8 @@
 <?php
 
-namespace Feikwok\InvoiceNova\Listeners;
+namespace Feikwok\InvoiceNode\Listeners;
 
-use Feikwok\InvoiceNova\Events\InvoiceHasBeenIssued;
+use Feikwok\InvoiceNode\Events\InvoiceHasBeenIssued;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
@@ -28,7 +28,7 @@ class InvoiceUpdateSubscriber
     public function sendPaymentReceipt($event)
     {
         if ($event->invoice->status === 'paid') {
-            $template = config('invoice-nova.invoice_comms.invoice_receipt_template');
+            $template = config('invoice-node.invoice_comms.invoice_receipt_template');
 
             Mail::send($template, ['invoice' => $event->invoice], function($m) use ($event){
                 $m->to($event->invoice->email);
@@ -45,7 +45,7 @@ class InvoiceUpdateSubscriber
     public function sendInvoicePDFToCustomer($event)
     {
         if (in_array($event->invoice->status, ['issued', 'paid'])) {
-            $template = config('invoice-nova.invoice_comms.customer_invoice_template');
+            $template = config('invoice-node.invoice_comms.customer_invoice_template');
             Mail::send($template, ['invoice' => $event->invoice], function($m) use ($event){
                 $m->to($event->invoice->email);
                 $m->subject('Invoice '.$event->invoice->id);
@@ -61,7 +61,7 @@ class InvoiceUpdateSubscriber
     {
         $template = 'email.admin-notification';
         Mail::send($template, ['invoice' => $event->invoice], function($m) use ($event){
-            $m->to(config('invoice-nova.invoice_comms.admin_email'));
+            $m->to(config('invoice-node.invoice_comms.admin_email'));
             $m->subject('Invalid Payment Detected for Invoice '.$event->invoice->id);
         });
     }
@@ -74,18 +74,18 @@ class InvoiceUpdateSubscriber
     public function subscribe($event)
     {
         $event->listen(
-            'Feikwok\InvoiceNova\Events\InvoiceHasBeenIssued',
-            'Feikwok\InvoiceNova\Listeners\InvoiceUpdateSubscriber@sendInvoicePDFToCustomer'
+            'Feikwok\InvoiceNode\Events\InvoiceHasBeenIssued',
+            'Feikwok\InvoiceNode\Listeners\InvoiceUpdateSubscriber@sendInvoicePDFToCustomer'
         );
 
         $event->listen(
-            'Feikwok\InvoiceNova\Events\InvoiceHasBeenPaid',
-            'Feikwok\InvoiceNova\Listeners\InvoiceUpdateSubscriber@sendPaymentReceipt'
+            'Feikwok\InvoiceNode\Events\InvoiceHasBeenPaid',
+            'Feikwok\InvoiceNode\Listeners\InvoiceUpdateSubscriber@sendPaymentReceipt'
         );
 
         $event->listen(
-            'Feikwok\InvoiceNova\Events\InvoicePaymentCheckFailed',
-            'Feikwok\InvoiceNova\Listeners\InvoiceUpdateSubscriber@notifyAdmin'
+            'Feikwok\InvoiceNode\Events\InvoicePaymentCheckFailed',
+            'Feikwok\InvoiceNode\Listeners\InvoiceUpdateSubscriber@notifyAdmin'
         );
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Feikwok\InvoiceNova\Services ;
+namespace Feikwok\InvoiceNode\Services ;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -9,7 +9,7 @@ class StripeApiService
 {
     public function __construct()
     {
-        Stripe::setApiKey(config('invoice-nova.payment_gateway.stripe.pkey'));
+        Stripe::setApiKey(config('invoice-node.payment_gateway.stripe.pkey'));
     }
 
     public function validatePayment(array $data)

@@ -1,6 +1,6 @@
 <?php
 
-namespace Feikwok\InvoiceNova\Http\Requests\Traits;
+namespace Feikwok\InvoiceNode\Http\Requests\Traits;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;

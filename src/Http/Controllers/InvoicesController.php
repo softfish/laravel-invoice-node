@@ -1,14 +1,14 @@
 <?php
-namespace Feikwok\InvoiceNova\Http\Controllers;
+namespace Feikwok\InvoiceNode\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
-use Feikwok\InvoiceNova\Events\InvoiceHasBeenIssued;
-use Feikwok\InvoiceNova\Events\InvoiceHasBeenPaid;
-use Feikwok\InvoiceNova\Events\InvoicePaymentCheckFailed;
-use Feikwok\InvoiceNova\Models\Invoice;
-use Feikwok\InvoiceNova\Models\Payment;
-use Feikwok\InvoiceNova\Services\StripeApiService;
+use Feikwok\InvoiceNode\Events\InvoiceHasBeenIssued;
+use Feikwok\InvoiceNode\Events\InvoiceHasBeenPaid;
+use Feikwok\InvoiceNode\Events\InvoicePaymentCheckFailed;
+use Feikwok\InvoiceNode\Models\Invoice;
+use Feikwok\InvoiceNode\Models\Payment;
+use Feikwok\InvoiceNode\Services\StripeApiService;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -21,7 +21,7 @@ class InvoicesController extends Controller
      */
     public function index()
     {
-        return view('invoice-nova::index');
+        return view('invoice-node::index');
     }
 
     /**
@@ -37,7 +37,7 @@ class InvoicesController extends Controller
             return redirect()->back();
         }
 
-        return view('invoice-nova::show', ['invoice' => $invoice]);
+        return view('invoice-node::show', ['invoice' => $invoice]);
     }
 
     /**
@@ -59,7 +59,7 @@ class InvoicesController extends Controller
         $qrImage = QrCode::format('png')->size(200)->generate(url('/innov/invoice/'.$invoice->ref.'/payment'));
 
         $pdf = \App::make('dompdf.wrapper');
-        $pdf = $pdf->loadHTML(view('invoice-nova::invoice.'.$invoice->template, ['invoice' => $invoice, 'qrImage' => $qrImage])->render());
+        $pdf = $pdf->loadHTML(view('invoice-node::invoice.'.$invoice->template, ['invoice' => $invoice, 'qrImage' => $qrImage])->render());
         return $pdf->setPaper('a4')->stream();
     }
 
@@ -101,9 +101,9 @@ class InvoicesController extends Controller
         $sessionId = $invoice->getSessionToken();
 
         if (!empty($invoice)) {
-            return view('invoice-nova::payment', ['invoice' => $invoice, 'sessionId' => $sessionId]);
+            return view('invoice-node::payment', ['invoice' => $invoice, 'sessionId' => $sessionId]);
         } else {
-            return view('invoice-nova::paymentError', ['ref' => $ref]);
+            return view('invoice-node::paymentError', ['ref' => $ref]);
         }
     }
 

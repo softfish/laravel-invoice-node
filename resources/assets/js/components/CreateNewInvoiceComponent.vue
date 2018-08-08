@@ -97,6 +97,8 @@
 </template>
 
 <script>
+    import store from '../store/app-store.js'
+
     export default {
         name: "CreateNewInvoiceComponent",
         data: function() {
@@ -136,6 +138,7 @@
                             this.form_msg_type = 'success';
                             this.form_message = 'New Invoice has been created.';
                             this.resetForm();
+                            store.commit('loadInvoices');
                             // $('#create-invoice-form').modal('toggle');
                         } else {
                             this.form_msg_type = 'error';

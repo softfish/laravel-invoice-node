@@ -1,10 +1,10 @@
 <?php
 
-namespace Feikwok\InvoiceNova\Http\Controllers\Api;
+namespace Feikwok\InvoiceNode\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Feikwok\InvoiceNova\Http\Requests\CreateBillEntryRequest;
-use Feikwok\InvoiceNova\Models\Invoice;
+use Feikwok\InvoiceNode\Http\Requests\CreateBillEntryRequest;
+use Feikwok\InvoiceNode\Models\Invoice;
 
 class BillEntryApiController extends Controller
 {

@@ -6,7 +6,7 @@
  * Time: 9:15 AM
  */
 
-namespace Feikwok\InvoiceNova\Models;
+namespace Feikwok\InvoiceNode\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

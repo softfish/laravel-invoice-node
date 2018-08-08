@@ -79,12 +79,12 @@
                         <input type="hidden" name="ref" value="{{ $invoice->ref }}">
                         <input type="hidden" name="sessionId" value="{{$sessionId}}">
                         <div class="payment-btn">
-                            @if (file_exists(public_path('/vendor/feikwok/invoice-nova/images/stripepayment-logo.png')))
-                                <img  width="100px" src="{{ asset('/vendor/feikwok/invoice-nova/images/stripepayment-logo.png')  }}" />
+                            @if (file_exists(public_path('/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png')))
+                                <img  width="100px" src="{{ asset('/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png')  }}" />
                             @endif
                             <script src="https://checkout.stripe.com/checkout.js"
                                     class="stripe-button"
-                                    data-key="<?= config('invoice-nova.payment_gateway.stripe.api_key') ?>"
+                                    data-key="<?= config('invoice-node.payment_gateway.stripe.api_key') ?>"
                                     data-amount="<?= number_format($invoice->total_amount,2) * 100 ?>"
                                     data-name="Payment to Invoice"
                                     data-description="Payment For Invoice ('<?= $invoice->ref ?>')"

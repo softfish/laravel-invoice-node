@@ -1,11 +1,11 @@
 <?php
 
-namespace Feikwok\InvoiceNova;
+namespace Feikwok\InvoiceNode;
 
-use Feikwok\InvoiceNova\Providers\EventServiceProvider;
+use Feikwok\InvoiceNode\Providers\EventServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
-class InvoiceNovaServiceProvider extends ServiceProvider
+class InvoiceNodeServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -14,10 +14,10 @@ class InvoiceNovaServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'invoice-nova');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'invoice-node');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->defineAssetPublishing();
-        $this->mergeConfigFrom(__DIR__.'/../config/invoice-nova.php', 'invoice-nova');
+        $this->mergeConfigFrom(__DIR__ . '/../config/invoice-node.php', 'invoice-node');
 
     }
 
@@ -44,8 +44,8 @@ class InvoiceNovaServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../resources/publish' => public_path('vendor/feikwok/laravel-invoice-nova'),
-            ], 'invoice-nova');
+                __DIR__ . '/../resources/publish' => public_path('vendor/feikwok/laravel-invoice-node'),
+            ], 'invoice-node');
         }
     }
 }

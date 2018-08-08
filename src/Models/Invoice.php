@@ -1,8 +1,8 @@
 <?php
 
-namespace Feikwok\InvoiceNova\Models;
+namespace Feikwok\InvoiceNode\Models;
 
-use Feikwok\InvoiceNova\Events\InvoiceHasBeenIssued;
+use Feikwok\InvoiceNode\Events\InvoiceHasBeenIssued;
 use Firebase\JWT\JWT;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -171,7 +171,7 @@ class Invoice extends Model
         $pdf = \App::make('dompdf.wrapper');
         $qrImage = QrCode::format('png')->size(200)->generate(url('/innov/invoice/'.$this->ref.'/payment'));
 
-        $pdf = $pdf->loadHTML(view('invoice-nova::invoice.'.$this->template, ['invoice' => $this, 'qrImage' => $qrImage])->render());
+        $pdf = $pdf->loadHTML(view('invoice-node::invoice.'.$this->template, ['invoice' => $this, 'qrImage' => $qrImage])->render());
         return $pdf->setPaper('a4');
     }
 }

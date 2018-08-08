@@ -1,7 +1,7 @@
 <?php
-namespace Feikwok\InvoiceNova\Http\Requests;
+namespace Feikwok\InvoiceNode\Http\Requests;
 
-use \Feikwok\InvoiceNova\Http\Requests\Traits\WebErrorValidationTrail;
+use \Feikwok\InvoiceNode\Http\Requests\Traits\WebErrorValidationTrail;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;

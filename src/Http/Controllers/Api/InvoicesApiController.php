@@ -1,12 +1,12 @@
 <?php
-namespace Feikwok\InvoiceNova\Http\Controllers\Api;
+namespace Feikwok\InvoiceNode\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Feikwok\InvoiceNova\Events\InvoiceHasBeenIssued;
-use Feikwok\InvoiceNova\Events\InvoiceHasBeenPaid;
-use Feikwok\InvoiceNova\Http\Requests\CreateInvoiceRequest;
-use Feikwok\InvoiceNova\Http\Requests\UpdateInvoiceRequest;
-use Feikwok\InvoiceNova\Models\Invoice;
+use Feikwok\InvoiceNode\Events\InvoiceHasBeenIssued;
+use Feikwok\InvoiceNode\Events\InvoiceHasBeenPaid;
+use Feikwok\InvoiceNode\Http\Requests\CreateInvoiceRequest;
+use Feikwok\InvoiceNode\Http\Requests\UpdateInvoiceRequest;
+use Feikwok\InvoiceNode\Models\Invoice;
 use Illuminate\Http\Request;
 
 class InvoicesApiController extends Controller
@@ -20,7 +20,7 @@ class InvoicesApiController extends Controller
     public function index(Request $request)
     {
         $query = Invoice::with('bill_entries');
-        if ($request->has('searchStr') && $request->get('searchStr') != '')
+        if ($request->has('searchStr') && !in_array($request->get('searchStr'), ['', 'null']))
         {
             $search = explode(' ', $request->get('searchStr'));
             // Basic Search Logic here

@@ -1,5 +1,5 @@
 <?php
-namespace Feikwok\InvoiceNova\Models;
+namespace Feikwok\InvoiceNode\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;

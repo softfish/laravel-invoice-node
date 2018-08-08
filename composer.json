@@ -1,11 +1,15 @@
 {
-    "name": "feikwok/laravel-invoice-nova",
+    "name": "feikwok/laravel-invoice-node",
     "description": "Laravel package which provide the functionality for invoicing and taking payments. This also include a simple user interface for management the invoices and payments.",
     "keywords" : [
         "laravel",
         "invoice",
         "payment",
-        "billing"
+        "billing",
+        "stripe",
+        "QR",
+        "PDF",
+        "JWT"
     ],
     "type": "project",
     "license": "MIT",
@@ -24,13 +28,13 @@
     },
     "autoload" : {
         "psr-4" : {
-            "Feikwok\\InvoiceNova\\" : "src/"
+            "Feikwok\\InvoiceNode\\" : "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Feikwok\\InvoiceNova\\InvoiceNovaServiceProvider"
+                "Feikwok\\InvoiceNode\\InvoiceNodeServiceProvider"
             ]
         }
     }
