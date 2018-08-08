@@ -43,6 +43,7 @@ In the package we are using vuejs and vue-moment and axios packages for the fron
 ```$xslt
 npm install vue
 npm install axios
+npm install vuex
 npm install vue-moment
 ```
 
@@ -95,6 +96,7 @@ The basic search will do a wide card search on the following information.
 ## On going development
 
 - Advance Search
+- Invoice Overdue Reminder
 - Schedule Billing (e.g. subscription charges)
 - Admin Access Controls
 - Google Address Lookup Integration
