@@ -184,7 +184,7 @@
                                         <td>@{{ billentry.description }}</td>
                                         <td
                                             v-if="(billentry.charge != null)"
-                                        >$@{{ billentry.charge.toFixed(2) }}</td>
+                                        >$@{{ parseFloat(billentry.charge).toFixed(2) }}</td>
                                         <td v-if="(billentry.charge === null)">&nbsp;</td>
                                         <td class="text-right">
                                             <i class="glyphicon glyphicon-remove"

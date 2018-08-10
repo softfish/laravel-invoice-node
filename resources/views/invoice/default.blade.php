@@ -24,9 +24,10 @@
     <tr>
         <td>
             <div class="logo">
-                @if (file_exists(public_path('/vendor/feikwok/invoice-node/images/stripepayment-logo.png')))
-                    <img src="{{ public_path('/vendor/feikwok/invoice-node/images/stripepayment-logo.png') }}" />
+                @if (file_exists(public_path().'/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png')))
+                    <img  width="100px" src="{{ asset('/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png')  }}" />
                 @endif
+
                 <div class="trading-as">
                     <label style="display: inline-block; font-weight: 700; width: 100px;">T/As</label> <span style="width: 100%;">{{ config('invoice-node.trading_as') }}</span><br />
                     <label style="display: inline-block; font-weight: 700; width: 100px;">A.B.N.</label> <span style="width: 100%;">{{ config('invoice-node.abn') }}</span><br />

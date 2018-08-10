@@ -1,7 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
+    <div id="payment-page" class="row" v-cloak>
+        <div class="maskon-wrapper" v-if="maskon">
+            <div class="maskon"></div>
+            <div class="counter">
+                <p>Section expired soon...</p>
+                <div class="number">@{{ differentTime/1000 }}</div>
+                <p>Sec to refresh the page.</p>
+            </div>
+        </div>
         <div class="container">
             <div class="col-md-6">
                 <h2>{{ 'INV'.$invoice->id }}</h2>
@@ -79,7 +87,7 @@
                         <input type="hidden" name="ref" value="{{ $invoice->ref }}">
                         <input type="hidden" name="sessionId" value="{{$sessionId}}">
                         <div class="payment-btn">
-                            @if (file_exists(public_path('/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png')))
+                            @if (file_exists(public_path().'/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png')))
                                 <img  width="100px" src="{{ asset('/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png')  }}" />
                             @endif
                             <script src="https://checkout.stripe.com/checkout.js"
@@ -111,10 +119,16 @@
         </div>
     </div>
     <style>
+        [v-cloak] > * { display:none; }
         .invoice-status {width: 100%; text-align: center; padding: 15px 10px; background-color: transparent; border: 1px solid;}
         .invoice-detail {margin: auto;}
         .payment-btn {float: right;}
         .invoice-paid-message {width:100%; text-align: center; padding: 15px 10px;}
+        .maskon-wrapper {position: absolute; z-index: 999;}
+        .maskon-wrapper .maskon {position: fixed; width: 100%; height: 100%; z-index: 1000; top: 50px; left: 0px; background-color: #333; opacity: 0.7;}
+        .maskon-wrapper .counter {font-size: 20px; color: #fff; text-align: center; width: 200px; position: fixed; left: calc(50% - 100px); z-index: 1001;}
+        .maskon-wrapper .counter .number {font-size: 70px; color: #e47e7a;}
     </style>
     <script src="https://js.braintreegateway.com/web/dropin/1.11.0/js/dropin.min.js"></script>
+    <script src="{{ asset('vendor/feikwok/laravel-invoice-node/js/payment-page.js') }}"></script>
 @endsection
