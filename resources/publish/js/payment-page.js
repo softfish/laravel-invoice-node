@@ -11629,8 +11629,7 @@ new Vue({
 
         this.currentTime = new Date().getTime();
         // Refresh the section every 10 mins
-        // this.refreshTime = this.currentTime + (10 * 60 * 1000); // 15secs
-        this.refreshTime = this.currentTime + 10 * 1000; // 10secs
+        this.refreshTime = this.currentTime + (10 * 60 * 1000);
 
         setInterval(function () {
             if (_this.currentTime < _this.refreshTime) {
@@ -11639,7 +11638,6 @@ new Vue({
                     _this.maskon = true;
                 }
                 _this.currentTime += 1000; // reduce 1 sec
-                console.log(_this.differentTime / 1000);
             } else {
                 location.reload();
             }

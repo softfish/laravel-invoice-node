@@ -17,6 +17,7 @@
         .payment-method h4 {margin-top: 0px;}
         .details .total {text-align: right;}
         .details.sub {text-transform: uppercase;}
+        .logo img {float: right; width: 150px;}
     </style>
 </head>
 <body style="font-size: 14px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;margin: 0px auto;">
@@ -24,8 +25,8 @@
     <tr>
         <td>
             <div class="logo">
-                @if (file_exists(public_path().'/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png')))
-                    <img  width="100px" src="{{ asset('/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png')  }}" />
+                @if (file_exists(public_path().'/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png'))
+                    <img src="{{ asset('/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png')  }}" />
                 @endif
 
                 <div class="trading-as">
@@ -42,16 +43,16 @@
         <td>
             <table style="width: 100%;">
                 <tr>
-                    <td style="width: 40%;">
+                    <td style="width: 50%;">
                         <div style="width: 50%;border: #333 1px solid; margin-top: 20px;padding: 20px;">
                             {{ $invoice->client_name }}<br />
                             {{ $invoice->address}}
                         </div>
                     </td>
-                    <td style="width: 60%; text-align: right;">
+                    <td style="width: 50%; text-align: right;">
                         <h2>Tax Invoice</h2>
-                        <div><label style="display: inline-block; font-weight: 700; width: 100px;">Invoice No:</label> {{ config('invoice-node.invoice_prefix').$invoice->id }}</div>
-                        <div><label style="display: inline-block; font-weight: 700; width: 100px;">Date:</label> {{ Carbon\Carbon::parse($invoice->issued_at)->format('d,M Y') }}</div>
+                        <div><label style="display: inline-block; font-weight: 700; width: 200px;">Invoice No:</label> {{ config('invoice-node.invoice_prefix').$invoice->id }}</div>
+                        <div><label style="display: inline-block; font-weight: 700; width: 200px;">Date:</label> {{ Carbon\Carbon::parse($invoice->issued_at)->format('d,M Y') }}</div>
                         <div style="font-size: 30px; font-weight: 700; margin-top: 25px; margin-bottom: 40px; color:#c8c8c8;">Total Payable: ${{ number_format($invoice->total_amount,2) }}</div>
                     </td>
                 </tr>

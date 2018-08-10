@@ -125,7 +125,7 @@
         .payment-btn {float: right;}
         .invoice-paid-message {width:100%; text-align: center; padding: 15px 10px;}
         .maskon-wrapper {position: absolute; z-index: 999;}
-        .maskon-wrapper .maskon {position: fixed; width: 100%; height: 100%; z-index: 1000; top: 50px; left: 0px; background-color: #333; opacity: 0.7;}
+        .maskon-wrapper .maskon {position: fixed; width: 100%; height: 100%; z-index: 1000; top:    0px; left: 0px; background-color: #333; opacity: 0.7;}
         .maskon-wrapper .counter {font-size: 20px; color: #fff; text-align: center; width: 200px; position: fixed; left: calc(50% - 100px); z-index: 1001;}
         .maskon-wrapper .counter .number {font-size: 70px; color: #e47e7a;}
     </style>
