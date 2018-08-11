@@ -131,7 +131,7 @@
                 };
             },
             submitForm: function() {
-                axios.post('/api/invoices/', this.form_data)
+                axios.post('/api/invoices', this.form_data)
                     .then((response) => {
                         response = response.data;
                         if (response.success) {
