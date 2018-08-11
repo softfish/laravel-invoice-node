@@ -25,8 +25,8 @@
     <tr>
         <td>
             <div class="logo">
-                @if (file_exists(public_path().'/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png'))
-                    <img src="{{ asset('/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png')  }}" />
+                @if (file_exists(public_path().'/images/invoice/invoice-logo.png'))
+                    <img src="{{ asset('/images/invoice/invoice-logo.png')  }}" />
                 @endif
 
                 <div class="trading-as">

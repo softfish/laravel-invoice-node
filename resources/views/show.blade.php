@@ -4,8 +4,8 @@
     <div class="row" id="edit-invoice-app" data-jsoninvoiceData="{{json_encode($invoice)}}" v-cloak>
         <div class="maskon-wrapper" v-if="maskon">
             <div class="maskon"></div>
-            @if (file_exists(public_path().'/images/loading.gif'))
-                <img class="loading" src="{{ asset('images/loading.gif') }}"/>
+            @if (file_exists(public_path().'/images/invoice/loading.gif'))
+                <img class="loading" src="{{ asset('images/invoice/loading.gif') }}"/>
             @else
                 <h3 class="loading">Loading...</h3>
             @endif
