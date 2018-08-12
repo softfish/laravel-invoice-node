@@ -1,13 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="payment-page" class="row" v-cloak>
-        <div class="maskon-wrapper" v-if="maskon">
-            <div class="maskon"></div>
-            <div class="counter">
-                <p>Section expired soon...</p>
-                <div class="number">@{{ differentTime/1000 }}</div>
-                <p>Sec to refresh the page.</p>
+    <div class="row">
+        <div  id="payment-page" v-cloak>
+            <div class="maskon-wrapper" v-if="maskon">
+                <div class="maskon"></div>
+                <div class="counter">
+                    <p>Section expired soon...</p>
+                    <div class="number">@{{ differentTime/1000 }}</div>
+                    <p>Sec to refresh the page.</p>
+                </div>
             </div>
         </div>
         <div class="container">
@@ -87,8 +89,8 @@
                         <input type="hidden" name="ref" value="{{ $invoice->ref }}">
                         <input type="hidden" name="sessionId" value="{{$sessionId}}">
                         <div class="payment-btn">
-                            @if (file_exists(public_path().'/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png')))
-                                <img  width="100px" src="{{ asset('/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png')  }}" />
+                            @if(file_exists(public_path().'/vendor/feikwok/laravel-invoice-node/images/stripepayment-logo.png'))
+                                <img  width="60px" src="{{ asset('/vendor/feikwok/laravel-invoice-node/images/stripepayment-logo.png') }}" />
                             @endif
                             <script src="https://checkout.stripe.com/checkout.js"
                                     class="stripe-button"

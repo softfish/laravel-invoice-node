@@ -4,8 +4,8 @@
     <div class="row" id="edit-invoice-app" data-jsoninvoiceData="{{json_encode($invoice)}}" v-cloak>
         <div class="maskon-wrapper" v-if="maskon">
             <div class="maskon"></div>
-            @if (file_exists(public_path().'/images/loading.gif'))
-                <img class="loading" src="{{ asset('images/loading.gif') }}"/>
+            @if (file_exists(public_path().'/vendor/feikwok/laravel-invoice-node/images/loading.gif'))
+                <img class="loading" src="{{ asset('/vendor/feikwok/laravel-invoice-node/images/loading.gif') }}"/>
             @else
                 <h3 class="loading">Loading...</h3>
             @endif
@@ -233,7 +233,7 @@
     select.form-control {height: 34px !important;}
     .maskon-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 999; background-color: #333; opacity: 0.7;}
     .maskon {z-index: 1000; width: 100%; height: 100%;}
-    .maskon-wrapper .loading {z-index: 1001; position: fixed; top: calc(40%); left: calc(50% - 100px); width: 200px;}
+    .maskon-wrapper .loading {text-align: center; z-index: 1001; position: fixed; top: calc(40%); left: calc(50% - 100px); width: 200px;}
 </style>
 
 @endsection

@@ -1,7 +1,7 @@
 <?php
 namespace Feikwok\InvoiceNode\Http\Requests;
 
-use \Feikwok\InvoiceNode\Http\Requests\Traits\WebErrorValidationTrail;
+use Feikwok\InvoiceNode\Http\Requests\Traits\ApiErrorValidationTrail;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CreateInvoiceRequest extends FormRequest
 {
-    use WebErrorValidationTrail;
+    use ApiErrorValidationTrail;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -19,8 +19,7 @@ class CreateInvoiceRequest extends FormRequest
      */
     public function authorize()
     {
-//        return Auth::check();
-        return true;
+        return Auth::check();
     }
 
     /**
@@ -52,28 +51,5 @@ class CreateInvoiceRequest extends FormRequest
             'business_name.max' => 'Company number could not be more than 255 characters.',
             'business_number.max' => 'Business number need to be between 4 to 50 characters.'
         ];
-    }
-
-    /**
-     * @param Validator $validator
-     */
-    protected function failedValidation(Validator $validator) {
-        throw new HttpResponseException($this->response($validator->errors()->toArray()));
-    }
-    /**
-     *
-     * @param array $errors
-     * @return JsonResponse
-     */
-    private function response(array $errors) {
-        return response()->json([
-            'success' => false,
-            'error' => $errors
-        ], JsonResponse::HTTP_OK);
-    }
-
-    public function validateResolved()
-    {
-        // TODO: Implement validateResolved() method.
     }
 }

@@ -59,7 +59,7 @@ class InvoiceUpdateSubscriber
      */
     public function notifyAdmin($event)
     {
-        $template = 'email.admin-notification';
+        $template = 'invoice-node::email.admin-notification';
         Mail::send($template, ['invoice' => $event->invoice], function($m) use ($event){
             $m->to(config('invoice-node.invoice_comms.admin_email'));
             $m->subject('Invalid Payment Detected for Invoice '.$event->invoice->id);
