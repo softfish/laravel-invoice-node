@@ -44,7 +44,11 @@ class Invoice extends Model
 
         static::saving(function($model){
             if ($model->status === 'issued') {
-                $model->issued_at = Carbon::now();
+                // Do this so we can use vue-moment formattor on frontend.
+                $model->issued_at = Carbon::now()->format('Y-m-d h:i:s');
+            }
+            if ($model->status === 'paid' && empty($model->issued_at)) {
+                $model->issued_at = Carbon::now()->format('Y-m-d h:i:s');
             }
 
             if ($model->tax_rate > 0 && !$model->is_taxable) {

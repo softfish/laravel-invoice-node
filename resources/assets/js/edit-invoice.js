@@ -1,6 +1,8 @@
 window.Vue = require('vue');
 window.axios = require('axios');
 
+Vue.use(require('vue-moment'));
+
 new Vue({
     el: "#edit-invoice-app",
     data: function() {
@@ -22,16 +24,20 @@ new Vue({
         this.invoice = $('#edit-invoice-app').data('jsoninvoicedata');
     },
     methods: {
+        toggleLoadingMask: function() {
+            this.maskon = !this.maskon;
+        },
         removeMessage: function() {
             this.alert.message = null;
             this.alert.messageType = null;
         },
         updateInvoiceAttributes: function() {
-            this.maskon = true;
+            this.toggleLoadingMask();
             axios.put('/api/invoices/'+this.invoice.id, this.invoice)
                 .then((response) => {
                     response = response.data;
                     if (response.success) {
+                        this.maskon = true;
                         this.alert.message = 'Invoice has been updated.';
                         this.alert.type = 'success';
                         this.invoice = response.invoice;
@@ -39,15 +45,18 @@ new Vue({
                         this.alert.message = response.error;
                         this.alert.type = 'error';
                     }
+                    this.toggleLoadingMask();
                 })
                 .catch((error) => {
                     console.log(error);
                     alert(error);
+                    this.toggleLoadingMask();
                 });
-            this.maskon = false;
+
+
         },
         createNewBillEntry: function(){
-            this.maskon = true;
+            this.toggleLoadingMask();
             this.beForm.position = this.invoice.bill_entries.length;
             axios.post('/api/invoices/'+this.invoice.id+'/billentries', this.beForm)
                 .then((response) => {
@@ -65,15 +74,16 @@ new Vue({
                         this.alert.message = response.error;
                         this.alert.type = 'error';
                     }
+                    this.toggleLoadingMask();
                 })
                 .catch((error) => {
                     console.log(error);
                     alert(error);
+                    this.toggleLoadingMask();
                 });
-            this.maskon = false;
         },
         removeExistingBillEntry: function(id) {
-            this.maskon = true;
+            this.toggleLoadingMask();
             axios.delete('/api/invoices/'+this.invoice.id+'/billentries/'+id)
                 .then((response) => {
                     response = response.data;
@@ -85,18 +95,19 @@ new Vue({
                         this.alert.message = response.error;
                         this.alert.type = 'error';
                     }
+                    this.toggleLoadingMask();
                 })
                 .catch((error) => {
                     console.log(error);
                     alert(error);
+                    this.toggleLoadingMask();
                 });
-            this.maskon = false;
         },
         updateBillEntriesOrder: function() {
             // TODO to arrange the display order for the billentries in this invoice
         },
         reloadInvoiceObj: function() {
-            this.maskon = true;
+            this.toggleLoadingMask();
             this.refreshAlert();
             axios.get('/api/invoices/'+this.invoice.id)
                 .then((response) => {
@@ -107,15 +118,16 @@ new Vue({
                         this.alert.message = response.error;
                         this.alert.type = 'error';
                     }
+                    this.toggleLoadingMask();
                 })
                 .catch((error) => {
                     console.log(error);
                     alert(error);
+                    this.toggleLoadingMask();
                 });
-            this.maskon = false;
         },
         issueInvoice: function() {
-            this.maskon = true;
+            this.toggleLoadingMask();
             this.refreshAlert();
             this.invoice.status = 'issued';
             axios.put('/api/invoices/'+this.invoice.id, this.invoice)
@@ -129,15 +141,16 @@ new Vue({
                         this.alert.message = response.error;
                         this.alert.type = 'error';
                     }
+                    this.toggleLoadingMask();
                 })
                 .catch((error) => {
                     console.log(error);
                     alert(error);
+                    this.toggleLoadingMask();
                 });
-            this.maskon = false;
         },
         cancelInvoice: function() {
-            this.maskon = true;
+          this.toggleLoadingMask();
             this.refreshAlert();
             this.invoice.status = 'cancelled';
             axios.put('/api/invoices/'+this.invoice.id, this.invoice)
@@ -151,12 +164,13 @@ new Vue({
                         this.alert.message = response.error;
                         this.alert.type = 'error';
                     }
+                    this.toggleLoadingMask();
                 })
                 .catch((error) => {
                     console.log(error);
                     alert(error);
+                    this.toggleLoadingMask();
                 });
-            this.maskon = false;
         },
         refreshAlert: function() {
             this.alert = {
