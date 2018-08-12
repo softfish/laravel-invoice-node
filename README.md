@@ -71,7 +71,7 @@ The default template before rendering will be checking the following folder loca
 invoice pdf copy.
 
 ```$xslt
-/public/images/invoice-logo.png
+/public/images/invoice/invoice-logo.png
 ```
 
 ### Registering custom invoice template
