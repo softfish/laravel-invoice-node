@@ -106,7 +106,14 @@ class InvoicesApiController extends Controller
 
             switch($invoice->status) {
                 case 'issued':
-                    event(new InvoiceHasBeenIssued($invoice));
+                    if ($invoice->total_amount > 0) {
+                        event(new InvoiceHasBeenIssued($invoice));
+                    } else {
+                        // If the invoice has no more outstanding amount
+                        $invoice->status = 'paid';
+                        $invoice->save();
+                        event(new InvoiceHasBeenPaid($invoice));
+                    }
                     break;
 //            case 'paid':
 //                break;

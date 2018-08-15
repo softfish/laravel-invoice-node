@@ -92,7 +92,7 @@
                                 <td>Status </td>
                                 <td class="text-uppercase">
                                     <strong>@{{ invoice.status }}</strong>
-                                    <div class="text-muted" v-if="invoice.status === 'issued'">
+                                    <div class="text-muted" v-if="invoice.status === 'issued' && invoice.issued_at != null">
                                         @{{ invoice.issued_at | moment('Do, MMM YYYY') }}
                                     </div>
                                 </td>
