@@ -11,7 +11,7 @@
         .header {border-bottom: 1px dashed #ddd;}
         .header h1 {color: #6dd0ee; font-size: 50px; text-align: center;}
         .header .trading-as { width: 100%; padding: 5px 20px; text-align: right;}
-        .client-info {padding: 10px 20px; height: 200px;}
+        .client-info {padding: 10px 20px; height: 180px;}
         footer h2 {color: #6dd0ee; text-align: center;}
         h3 {color: #6dd0ee;}
         .summary .total h2 {text-align: center; font-size: 60px; color: #d4d4d4; margin-top: 0px;}
@@ -38,10 +38,6 @@
     <tr>
         <td>
             <div style="margin: 40px 10px;">
-                @if (file_exists(public_path().'/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png')))
-                    <img  width="100px" src="{{ asset('/vendor/feikwok/laravel-invoice-node/images/invoice-logo.png')  }}" />
-                @endif
-
                 <div class="trading-as">
                     <span style="width: 100%; text-transform: uppercase; color: #6dd0ee; font-weight: 700; font-size: 25px;  ">{{ config('invoice-node.trading_as') }}</span><br />
                     A.B.N <span style="width: 100%;">{{ config('invoice-node.abn') }}</span><br />
