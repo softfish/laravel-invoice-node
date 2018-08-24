@@ -173,7 +173,7 @@ class Invoice extends Model
     public function getInvoicePdf()
     {
         $pdf = \App::make('dompdf.wrapper');
-        $qrImage = QrCode::format('png')->size(200)->generate(url('/innov/invoice/'.$this->ref.'/payment'));
+        $qrImage = QrCode::format('png')->size(200)->generate(url('/innov/invoices/'.$this->ref.'/payment'));
 
         $pdf = $pdf->loadHTML(view('invoice-node::invoice.'.$this->template, ['invoice' => $this, 'qrImage' => $qrImage])->render());
         return $pdf->setPaper('a4');
