@@ -63,6 +63,11 @@ INVOICENODE_STRIPE_PUBKEY=[your-stripe-public-key]
 INVOICENODE_STRIPE_PKEY=[your-stripe-private-key]
 ```
 
+In order to render the PDF from our default templates, a **"fonts"** folder insider the laravel storage folder. So please makes sure you create the folder before you start you PDF generation.
+```$xslt
+e.g. mkdir /[laravel-project-root-folder]/storage/fonts 
+```  
+
 ## Template Configuration (Optional)
 
 ### Adding or changing the invoice logo on default template
