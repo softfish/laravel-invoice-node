@@ -29,4 +29,6 @@ return [
         'invoice_receipt_template' => file_exists(resource_path().'/views/email/invoice/invoice-receipt.blade.php')? 'email.invoice.invoice-receipt': 'invoice-node::email.invoice-receipt',
         'customer_invoice_template' => file_exists(resource_path().'/views/email/invoice/customer-invoice.blade.php')? 'email.invoice.customer-invoice': 'invoice-node::email.customer-invoice',
     ],
+    // This is restricted for 22 characters
+    'statement_descriptor' => env('INVOICENODE_STATEMENT_DESCRIPTOR', null),
 ];

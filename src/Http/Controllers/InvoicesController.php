@@ -13,6 +13,8 @@ use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Stripe\Charge;
+use Stripe\Stripe;
 
 class InvoicesController extends Controller
 {
@@ -138,8 +140,15 @@ class InvoicesController extends Controller
                 if ($token->iss === env('APP_URL')) {
                     // Now we need to check the payment token is valid
                     Log::info('Checking Stripe Payment Token...');
-                    if ((new StripeApiService())->validatePayment($request->all())) {
-                        $invoice->status = 'paid';
+                    $stripeService = new StripeApiService();
+                    if ($stripeService->validatePayment($request->all())) {
+                        // Now we can charge the customer
+                        $result = $stripeService->createCharge([
+                                        'invoice' => $invoice,
+                                        'token' => $request->get('stripeToken')
+                                    ]);
+
+                        $invoice->status = ($result)? 'paid' : 'payment failed';
                         $invoice->save();
 
                         event(new InvoiceHasBeenPaid($invoice));

@@ -81,6 +81,14 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>Address</td>
+                                <td>
+                                    <input class="form-control" v-model="invoice.address"
+                                           :disabled="(!invoice.is_editable)"
+                                   >
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>Tax</td>
                                 <td>
                                     <input class="form-control" type='number' v-model="invoice.tax_rate"

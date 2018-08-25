@@ -14,9 +14,12 @@
         .client-info {padding: 10px 20px; height: 180px;}
         footer h2 {color: #6dd0ee; text-align: center;}
         h3 {color: #6dd0ee;}
-        .summary .total h2 {text-align: center; font-size: 60px; color: #d4d4d4; margin-top: 0px;}
+        .summary .total {width: 40%;}
+        .summary .total h2 {text-align: right; font-size: 60px; color: #d4d4d4; margin-top: 0px;}
         .items-list .billentries .header {background-color: #6dd0ee; color: #fff; text-align: center;}
         .items-list .billentries .header td { font-weight: 700;}
+        .items-list .billentries .entry .total {text-align: right; padding-right: 32px;}
+        .items-list .summary .total {text-align: right; padding-right: 32px;}
         .footer .payment-method .left {width: 55%;}
     </style>
 </head>
@@ -94,9 +97,9 @@
         </td>
     </tr>
 
-    <tr>
+    <tr class="summary">
         <td>
-            <div>
+            <div style=" border-top: 1px solid #ddd;">
                 <table style="width: 200px; float: right;">
                     <tr class="details sub m-top">
                         <td style="font-weight: 700;">Subtotal:</td>
