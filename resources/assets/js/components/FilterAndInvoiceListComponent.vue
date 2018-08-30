@@ -140,7 +140,7 @@
         font-weight: 700;
     }
     .text-muted {
-        color: #dcdcdc;
+        color: #dcdcdc !important;
     }
     .filter-type-toggle {
         margin-bottom: 15px;

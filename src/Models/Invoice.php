@@ -97,21 +97,34 @@ class Invoice extends Model
         $templates = [];
         foreach ($files as $fileName) {
             if (str_contains($fileName, '.blade.php')) {
-                $templates[] = str_replace('.blade.php', '', $fileName);
+                $templates[] = 'invoice-node::invoice.'.str_replace('.blade.php', '', $fileName);
             }
         }
 
         // Include custom templates.
-        if (file_exists(resource_path('/views/innov/invoice_templates'))) {
-            $customFiles = scandir(resource_path('/views/innov/invoice_templates'));
+        if (file_exists(resource_path('views/innov/invoice_templates'))) {
+            $customFiles = scandir(resource_path('views/innov/invoice_templates'));
             foreach ($customFiles as $fileName) {
                 if (str_contains($fileName, '.blade.php')) {
-                    $templates[] = str_replace('.blade.php', '', $fileName);
+                    $templates[] = 'innov.invoice_templates.'.str_replace('.blade.php', '', $fileName);
                 }
             }
         }
 
         return $templates;
+    }
+
+    /**
+     * return the invoice template label for the display
+     *
+     * @return mixed
+     */
+    public function getInvoiceTemplateLabel($template_name)
+    {
+        return str_replace('innov.invoice_templates.', '',
+                    str_replace('invoice-node::invoice.',  '',
+                        str_replace('_', ' ', $template_name))
+                );
     }
 
     /**
@@ -175,7 +188,7 @@ class Invoice extends Model
         $pdf = \App::make('dompdf.wrapper');
         $qrImage = QrCode::format('png')->size(200)->generate(url('/innov/invoices/'.$this->ref.'/payment'));
 
-        $pdf = $pdf->loadHTML(view('invoice-node::invoice.'.$this->template, ['invoice' => $this, 'qrImage' => $qrImage])->render());
+        $pdf = $pdf->loadHTML(view($this->template, ['invoice' => $this, 'qrImage' => $qrImage])->render());
         return $pdf->setPaper('a4');
     }
 }

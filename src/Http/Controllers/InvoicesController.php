@@ -58,10 +58,10 @@ class InvoicesController extends Controller
             return redirect()->back();
         }
 
-        $qrImage = QrCode::format('png')->size(200)->generate(url('/innov/invoice/'.$invoice->ref.'/payment'));
+        $qrImage = QrCode::format('png')->size(200)->generate(url('/innov/invoices/'.$invoice->ref.'/payment'));
 
         $pdf = \App::make('dompdf.wrapper');
-        $pdf = $pdf->loadHTML(view('invoice-node::invoice.'.$invoice->template, ['invoice' => $invoice, 'qrImage' => $qrImage])->render());
+        $pdf = $pdf->loadHTML(view($invoice->template, ['invoice' => $invoice, 'qrImage' => $qrImage])->render());
         return $pdf->setPaper('a4')->stream();
     }
 

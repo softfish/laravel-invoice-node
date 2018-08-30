@@ -8,7 +8,6 @@
         table {width: 100%; margin: 0px; border: 0px;}
         .header-bar {background-color: #6dd0ee; color: #fff; font-size: 14px; text-align: right; padding: 5px 10px; box-sizing: border-box;}
         .header-bar tr td:first-child { text-align: left; }
-        .header {border-bottom: 1px dashed #ddd;}
         .header h1 {color: #6dd0ee; font-size: 50px; text-align: center;}
         .header .trading-as { width: 100%; padding: 5px 20px; text-align: right;}
         .client-info {padding: 10px 20px; height: 180px;}
@@ -19,8 +18,10 @@
         .items-list .billentries .header {background-color: #6dd0ee; color: #fff; text-align: center;}
         .items-list .billentries .header td { font-weight: 700;}
         .items-list .billentries .entry .total {text-align: right; padding-right: 32px;}
+        .items-list .billentries .entry .details {padding-left: 12px;}
         .items-list .summary .total {text-align: right; padding-right: 32px;}
         .footer .payment-method .left {width: 55%;}
+        .fine-print {font-size: 10px;}
     </style>
 </head>
 <body>
@@ -38,6 +39,8 @@
             </table>
         </td>
     </tr>
+</table>
+<table class="header" style="border-bottom: 1px dashed #ddd;">
     <tr>
         <td>
             <div style="margin: 40px 10px;">
@@ -96,7 +99,8 @@
             </table>
         </td>
     </tr>
-
+</table>
+<table class="items-list">
     <tr class="summary">
         <td>
             <div style=" border-top: 1px solid #ddd;">
@@ -119,10 +123,10 @@
     </tr>
 </table>
 
-<table class="footer" >
-    <tr class="payment-method">
-        <td>
-            <table style="width: 100%; height: 200px; margin-top: 150px; padding: 15px; border-top: 1px dashed #ddd;">
+<div class="footer" >
+    <div class="payment-method">
+        <div>
+            <table style="width: 100%; margin-top: 120px; padding: 15px; border-top: 1px dashed #ddd;">
                 <tr>
                     <td class="left" style="position:relative;">
                         <div>
@@ -131,8 +135,9 @@
                             <div><strong>Bank: </strong> {{ config('invoice-node.bank_name') }}</div>
                             <div><strong>BSB:</strong> {{ config('invoice-node.bsb') }}</div>
                             <div><strong>A/C:</strong> {{ config('invoice-node.bank_account_number') }}</div>
+                            <p class="fine-print">* IMPORTANT: Direct bank transfer might take a few day to confirm the payment.</p>
                         </div>
-                        <img style="position: absolute; right:50px; top: 0px;" src="data:image/png;base64, {{ base64_encode($qrImage) }} ">
+                        <img style="position: absolute; right:230px; top: 0px;" src="data:image/png;base64, {{ base64_encode($qrImage) }} ">
                     </td>
                     <td style="text-align: right;">
                         <table class="invoice-conclusion">
@@ -164,9 +169,9 @@
                     </td>
                 </tr>
             </table>
-        </td>
-    </tr>
-</table>
+        </div>
+    </div>
+</div>
 
 <footer style="width: 100%">
     <h2>Thank you for your business</h2>

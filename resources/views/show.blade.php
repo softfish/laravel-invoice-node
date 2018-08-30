@@ -112,7 +112,7 @@
                                             :disabled="(!invoice.is_editable)"
                                     >
                                         @foreach($invoice->loadAvailableTemplates() as $template_name)
-                                            <option value="{{$template_name}}">{{ str_replace('_', ' ', $template_name) }}</option>
+                                            <option value="{{$template_name}}">{{ $invoice->getInvoiceTemplateLabel($template_name) }}</option>
                                         @endforeach
                                     </select>
                                 </td>

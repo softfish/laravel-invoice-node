@@ -122,7 +122,8 @@
     </div>
     <style>
         [v-cloak] > * { display:none; }
-        .invoice-status {width: 100%; text-align: center; padding: 15px 10px; background-color: transparent; border: 1px solid;}
+        h2,h3 {font-weight: 700;}
+        .invoice-status {width: 100%; text-align: center; padding: 15px 10px; background-color: transparent; border: 1px solid; margin-top: 10px; margin-bottom: 10px;}
         .invoice-detail {margin: auto;}
         .payment-btn {float: right;}
         .invoice-paid-message {width:100%; text-align: center; padding: 15px 10px;}
