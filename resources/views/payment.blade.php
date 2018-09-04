@@ -28,10 +28,6 @@
                     <p>
                         Hi, look like your invoice has been paid. No payment will be required for this.
                     </p>
-                    <p>
-                        If you would like to get a copy of the invoice, please use the following button to request a copy of
-                        your invoice send to you nominated email address from this invoice.
-                    </p>
                 @else
                     <h3>This invoice due for payment.</h3>
                     <ul>

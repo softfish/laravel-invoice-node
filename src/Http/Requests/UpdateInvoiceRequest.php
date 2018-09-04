@@ -4,6 +4,7 @@ namespace Feikwok\InvoiceNode\Http\Requests;
 
 use Feikwok\InvoiceNode\Http\Requests\Traits\ApiErrorValidationTrail;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateInvoiceRequest extends FormRequest
 {
@@ -16,8 +17,7 @@ class UpdateInvoiceRequest extends FormRequest
      */
     public function authorize()
     {
-//        return Auth::check();
-        return true;
+        return Auth::check();
     }
 
     /**

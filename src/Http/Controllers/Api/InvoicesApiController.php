@@ -8,6 +8,7 @@ use Feikwok\InvoiceNode\Http\Requests\CreateInvoiceRequest;
 use Feikwok\InvoiceNode\Http\Requests\UpdateInvoiceRequest;
 use Feikwok\InvoiceNode\Models\Invoice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InvoicesApiController extends Controller
 {
@@ -90,7 +91,7 @@ class InvoicesApiController extends Controller
     public function update(UpdateInvoiceRequest $request)
     {
         $invoice = Invoice::with('bill_entries')->find($request->get('id'));
-        if ($invoice->is_editable) {
+        if ($invoice->is_editable || Auth::user()->hasPermissionTo('invoice edit overwrite')) {
             $invoice->update([
                 'client_name' => $request->get('client_name'),
                 'business_name' => $request->get('business_name'),

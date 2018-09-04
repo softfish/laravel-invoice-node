@@ -4,6 +4,7 @@ namespace Feikwok\InvoiceNode;
 
 use Feikwok\InvoiceNode\Providers\EventServiceProvider;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Permission\Models\Permission;
 
 class InvoiceNodeServiceProvider extends ServiceProvider
 {
@@ -46,6 +47,18 @@ class InvoiceNodeServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../resources/publish' => public_path('vendor/feikwok/laravel-invoice-node'),
             ], 'invoice-node');
+
+            // Check do we have the permission to overwrite the issued invoice modification
+            $permission = Permission::where('name', 'invoice edit overwrite')
+                            ->where('guard_name', 'web')
+                            ->first();
+            if (empty($permission)) {
+                $permission = Permission::make([
+                                    'name' => 'invoice edit overwrite',
+                                    'guard_name' => 'web',
+                                ]);
+                $permission->save();
+            }
         }
     }
 }

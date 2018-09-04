@@ -44,7 +44,7 @@
                                 <td>Client Name</td>
                                 <td>
                                     <input class="form-control" v-model="invoice.client_name"
-                                           :disabled="(!invoice.is_editable)"
+                                           :disabled="(!invoice.is_editable && !editOverwrite)"
                                     >
                                 </td>
                             </tr>
@@ -52,7 +52,7 @@
                                 <td>Business Name</td>
                                 <td>
                                     <input class="form-control" v-model="invoice.business_name"
-                                           :disabled="(!invoice.is_editable)"
+                                           :disabled="(!invoice.is_editable && !editOverwrite)"
                                     >
                                 </td>
                             </tr>
@@ -60,7 +60,7 @@
                                 <td>Business Number</td>
                                 <td>
                                     <input class="form-control" v-model="invoice.business_number"
-                                           :disabled="(!invoice.is_editable)"
+                                           :disabled="(!invoice.is_editable && !editOverwrite)"
                                     >
                                 </td>
                             </tr>
@@ -68,7 +68,7 @@
                                 <td>Email Contact</td>
                                 <td>
                                     <input class="form-control" type='email' v-model="invoice.email"
-                                           :disabled="(!invoice.is_editable)"
+                                           :disabled="(!invoice.is_editable && !editOverwrite)"
                                     >
                                 </td>
                             </tr>
@@ -76,7 +76,7 @@
                                 <td>Phone Contact</td>
                                 <td>
                                     <input class="form-control" v-model="invoice.phone"
-                                           :disabled="(!invoice.is_editable)"
+                                           :disabled="(!invoice.is_editable && !editOverwrite)"
                                     >
                                 </td>
                             </tr>
@@ -84,7 +84,7 @@
                                 <td>Address</td>
                                 <td>
                                     <input class="form-control" v-model="invoice.address"
-                                           :disabled="(!invoice.is_editable)"
+                                           :disabled="(!invoice.is_editable && !editOverwrite)"
                                    >
                                 </td>
                             </tr>
@@ -92,7 +92,7 @@
                                 <td>Tax</td>
                                 <td>
                                     <input class="form-control" type='number' v-model="invoice.tax_rate"
-                                           :disabled="(!invoice.is_editable)"
+                                           :disabled="(!invoice.is_editable && !editOverwrite)"
                                     >
                                 </td>
                             </tr>
@@ -109,7 +109,7 @@
                                 <td>Template</td>
                                 <td>
                                     <select class="form-control text-capitalize" v-model="invoice.template"
-                                            :disabled="(!invoice.is_editable)"
+                                            :disabled="(!invoice.is_editable && !editOverwrite)"
                                     >
                                         @foreach($invoice->loadAvailableTemplates() as $template_name)
                                             <option value="{{$template_name}}">{{ $invoice->getInvoiceTemplateLabel($template_name) }}</option>
@@ -123,7 +123,7 @@
                                     <div class="btn-group">
                                         <div class="btn"
                                              :class="{'btn-primary': (invoice.is_editable), 'btn-default': !invoice.is_editable}"
-                                             :disabled="(!invoice.is_editable)"
+                                             :disabled="(!invoice.is_editable && !editOverwrite)"
                                              v-on:click="updateInvoiceAttributes()"
                                         >
                                             UPDATE
@@ -131,18 +131,32 @@
                                         <div class="btn"
                                              :class="{'btn-primary':(invoice.status === 'issued'), 'btn-default': (invoice.status != 'issued')}"
                                              v-on:click="issueInvoice()"
-                                             :disabled="(!invoice.is_editable)"
+                                             :disabled="(!invoice.is_editable && !editOverwrite)"
                                         >
                                             ISSUE
                                         </div>
                                         <div class="btn"
                                              :class="{'btn-primary':(invoice.status === 'cancelled'), 'btn-default': (invoice.status != 'cancelled')}"
-                                             :disabled="(!invoice.is_editable)"
+                                             :disabled="(!invoice.is_editable && !editOverwrite)"
                                              v-on:click="cancelInvoice()"
                                         >
                                             CANCELLED
                                         </div>
                                     </div>
+
+                                    @if (!$invoice->is_editable && Auth::user()->hasPermissionTo('invoice edit overwrite'))
+                                        <transition name="slide-fade" mode="out-in">
+                                            <button class="mt-1 btn btn-default" v-if="!editOverwrite" v-on:click="toggleEditOverwrite()">
+                                                Edit Overwrite OFF
+                                            </button>
+                                        </transition>
+
+                                        <transition name="slide-fade" mode="in-out">
+                                            <button class="mt-1 btn btn-warning" v-if="editOverwrite" v-on:click="toggleEditOverwrite()">
+                                                Edit Overwrite ON
+                                            </button>
+                                        </transition>
+                                    @endif
                                 </td>
                             </tr>
                         </table>
@@ -206,10 +220,10 @@
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <div class="text-center" v-if="!invoice.is_editable">
+                        <div class="text-center" v-if="!invoice.is_editable && !editOverwrite">
                             Invoice has been issued.
                         </div>
-                        <div class="row" v-if="invoice.is_editable">
+                        <div class="row" v-if="invoice.is_editable || editOverwrite">
                             <div class="col-md-6">
                                 <input class="form-control" v-model="beForm.description" placeholder="Bill Entry Description">
                             </div>
@@ -242,6 +256,20 @@
     .maskon-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 999; background-color: #333; opacity: 0.7;}
     .maskon {z-index: 1000; width: 100%; height: 100%;}
     .maskon-wrapper .loading {text-align: center; z-index: 1001; position: fixed; top: calc(40%); left: calc(50% - 100px); width: 200px;}
+
+    /* Enter and leave animations can use different */
+    /* durations and timing functions.              */
+    .slide-fade-enter-active {
+        transition: all .3s ease;
+    }
+    .slide-fade-leave-active {
+        transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-to
+        /* .slide-fade-leave-active below version 2.1.8 */ {
+        transform: translateX(10px);
+        opacity: 0;
+    }
 </style>
 
 @endsection
