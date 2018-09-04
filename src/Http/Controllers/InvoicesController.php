@@ -176,6 +176,13 @@ class InvoicesController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Resend customer email
+     *
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function resendMail($id, Request $request)
     {
         if ($request->has('event')) {
@@ -193,6 +200,19 @@ class InvoicesController extends Controller
             }
         }
 
+        return redirect()->back();
+    }
+
+    public function bankTransfer($ref, Request $request)
+    {
+        $invoice = Invoice::where('ref', $ref)->first();
+        if (!empty($invoice)) {
+            $invoice->update([
+                'status' => 'pending payment confirmation',
+            ]);
+
+            // Need to notify the admin/trader
+        }
         return redirect()->back();
     }
 }

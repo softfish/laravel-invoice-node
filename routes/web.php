@@ -10,3 +10,4 @@ Route::group(['middleware' => ['web', 'auth']], function() {
 
 Route::get('/innov/invoices/{ref}/payment', '\Feikwok\InvoiceNode\Http\Controllers\InvoicesController@showPayment');
 Route::post('/innov/invoices/{ref}/payment', '\Feikwok\InvoiceNode\Http\Controllers\InvoicesController@processPayment');
+Route::post('/innov/invoices/{ref}/banktransfer', '\Feikwok\InvoiceNode\Http\Controllers\InvoicesController@bankTransfer');
