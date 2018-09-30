@@ -8,6 +8,7 @@ new Vue({
     data: function() {
         return {
             maskon: false,
+            editOverwrite: false,
             invoice: {},
             beForm: {
                 description: null,
@@ -24,6 +25,9 @@ new Vue({
         this.invoice = $('#edit-invoice-app').data('jsoninvoicedata');
     },
     methods: {
+        toggleEditOverwrite: function() {
+            this.editOverwrite = !this.editOverwrite;
+        },
         toggleLoadingMask: function() {
             this.maskon = !this.maskon;
         },
@@ -150,7 +154,7 @@ new Vue({
                 });
         },
         cancelInvoice: function() {
-          this.toggleLoadingMask();
+            this.toggleLoadingMask();
             this.refreshAlert();
             this.invoice.status = 'cancelled';
             axios.put('/api/invoices/'+this.invoice.id, this.invoice)

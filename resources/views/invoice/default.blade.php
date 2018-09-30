@@ -18,6 +18,7 @@
         .details .total {text-align: right;}
         .details.sub {text-transform: uppercase;}
         .logo img {float: right; width: 150px;}
+        .fine-print {font-size: 10px;}
     </style>
 </head>
 <body style="font-size: 14px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;margin: 0px auto;">
@@ -115,6 +116,7 @@
                             <label style="display: block; font-weight: 700;">Bank:</label> <span>{{ config('invoice-node.bank_name') }}</span><br />
                             <label style="display: block; font-weight: 700;">BSB:</label> <span>{{ config('invoice-node.bsb') }}</span><br />
                             <label style="display: block; font-weight: 700;">A/C:</label> <span>{{ config('invoice-node.bank_account_number') }}</span>
+                            <p class="fine-print">* IMPORTANT: Direct bank transfer might take a few day to confirm the payment.</p>
                         </div>
                         <img style="position: absolute; right:0px; top: 0px;" src="data:image/png;base64, {{ base64_encode($qrImage) }} ">
                     </td>

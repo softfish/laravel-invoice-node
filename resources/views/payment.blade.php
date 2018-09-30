@@ -28,10 +28,6 @@
                     <p>
                         Hi, look like your invoice has been paid. No payment will be required for this.
                     </p>
-                    <p>
-                        If you would like to get a copy of the invoice, please use the following button to request a copy of
-                        your invoice send to you nominated email address from this invoice.
-                    </p>
                 @else
                     <h3>This invoice due for payment.</h3>
                     <ul>
@@ -85,28 +81,79 @@
                 </div>
 
                 @if ($invoice->status === 'issued')
-                    <form method="post">
-                        <input type="hidden" name="ref" value="{{ $invoice->ref }}">
-                        <input type="hidden" name="sessionId" value="{{$sessionId}}">
-                        <div class="payment-btn">
-                            @if(file_exists(public_path().'/vendor/feikwok/laravel-invoice-node/images/stripepayment-logo.png'))
-                                <img  width="60px" src="{{ asset('/vendor/feikwok/laravel-invoice-node/images/stripepayment-logo.png') }}" />
-                            @endif
-                            <script src="https://checkout.stripe.com/checkout.js"
-                                    class="stripe-button"
-                                    data-key="<?= config('invoice-node.payment_gateway.stripe.api_key') ?>"
-                                    data-amount="<?= number_format($invoice->total_amount,2) * 100 ?>"
-                                    data-name="Payment to Invoice"
-                                    data-description="Payment For Invoice ('<?= $invoice->ref ?>')"
-                                    @if (false)
-                                        data-image="/128x128.png"
-                                    @endif
-                                >
-                            </script>
-                        </div>
-                    </form>
+                    <div class="text-left col-6 float-left">
+                        <form method="post" action="{{ url('/innov/invoices/'.$invoice->ref.'/banktransfer') }}">
+                            <button
+                                    type="button"
+                                    class="btn btn-info btn-lg"
+                                    data-toggle="modal"
+                                    data-target="#warning-msg"
+                            >Direct Bank Transfer</button>
+
+                            <div id="warning-msg" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-primary">
+                                            <h4>DIRECT BANK TRANSFER CONFIMRATION</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="alert alert-warning">
+                                                By clicking confirm button below, you are acknowledge that you have make a direct bank transfer payment
+                                                to the bank account instructed by this invoice you have received.
+                                            </p>
+                                            <p class="alert alert-default">
+                                                The invoice would not considered to be paid until the transaction is cleared by the bank.
+                                            </p>
+                                            <p class="alert text-default">
+                                                If you have any question please contact the vendor by using the contact information, which
+                                                shown on the invoice.
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="btn-group btn-group-lg">
+                                                <input type="submit" class="btn btn-primary" value="Confirm">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="text-right col-6 float-left">
+                        <form method="post">
+                            <input type="hidden" name="ref" value="{{ $invoice->ref }}">
+                            <input type="hidden" name="sessionId" value="{{$sessionId}}">
+                            <div class="payment-btn">
+                                @if(file_exists(public_path().'/vendor/feikwok/laravel-invoice-node/images/stripepayment-logo.png'))
+                                    <img  width="60px" src="{{ asset('/vendor/feikwok/laravel-invoice-node/images/stripepayment-logo.png') }}" />
+                                @endif
+                                <script src="https://checkout.stripe.com/checkout.js"
+                                        class="stripe-button"
+                                        data-key="<?= config('invoice-node.payment_gateway.stripe.api_key') ?>"
+                                        data-amount="<?= number_format($invoice->total_amount,2) * 100 ?>"
+                                        data-name="Payment to Invoice"
+                                        data-description="Payment For Invoice ('<?= $invoice->ref ?>')"
+                                        @if (false)
+                                            data-image="/128x128.png"
+                                        @endif
+                                    >
+                                </script>
+                            </div>
+                        </form>
+                    </div>
                 @elseif($invoice->status === 'paid')
                     <label class="invoice-paid-message badge badge-default">INVOICE HAS BEEN PAID. NO ACTION IS REQUIRED.</label>
+                @elseif($invoice->status === 'pending payment confirmation')
+                    <label class="invoice-paid-message badge badge-default">PENDING DIRECT TRANSFER PAYMENT CONFIRMATION.</label>
+                    <p class="mt-5">
+                        You have selected the direct bank transfer method for payment. This payment method required staff to confirm the payment
+                        has been deposit the our norminated bank account.
+                    </p>
+                    <p class="mt-1">
+                        This invoice's status will be updated to PAID once the confirmation is completed.
+                    </p>
                 @else
                     <div clas="col-md-12 text-center">
                         <label class="badge badge-warning">
@@ -120,9 +167,11 @@
             </div>
         </div>
     </div>
+
     <style>
         [v-cloak] > * { display:none; }
-        .invoice-status {width: 100%; text-align: center; padding: 15px 10px; background-color: transparent; border: 1px solid;}
+        h2,h3 {font-weight: 700;}
+        .invoice-status {width: 100%; text-align: center; padding: 15px 10px; background-color: transparent; border: 1px solid; margin-top: 10px; margin-bottom: 10px;}
         .invoice-detail {margin: auto;}
         .payment-btn {float: right;}
         .invoice-paid-message {width:100%; text-align: center; padding: 15px 10px;}
@@ -131,6 +180,5 @@
         .maskon-wrapper .counter {font-size: 20px; color: #fff; text-align: center; width: 200px; position: fixed; left: calc(50% - 100px); z-index: 1001;}
         .maskon-wrapper .counter .number {font-size: 70px; color: #e47e7a;}
     </style>
-    <script src="https://js.braintreegateway.com/web/dropin/1.11.0/js/dropin.min.js"></script>
     <script src="{{ asset('vendor/feikwok/laravel-invoice-node/js/payment-page.js') }}"></script>
 @endsection

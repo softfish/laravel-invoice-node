@@ -31,4 +31,11 @@ return [
     ],
     // This is restricted for 22 characters
     'statement_descriptor' => env('INVOICENODE_STATEMENT_DESCRIPTOR', null),
+
+    'notification' => [
+        'slack' => [
+            'billing_webhook' => env('INVOICENODE_SLACK_NOTIFICATION_BILLING_WEBHOOK_URL', null),
+            'error_webhook' => env('INVOICENODE_SLACK_NOTIFICATION_ERROR_WEBHOOK_URL', null),
+        ]
+    ]
 ];

@@ -10,7 +10,4 @@
         </div>
     </div>
     <script src="{{ asset('vendor/feikwok/laravel-invoice-node/js/app.js') }}"></script>
-    <style>
-
-    </style>
 @endsection

@@ -2,12 +2,14 @@
 namespace Feikwok\InvoiceNode\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Carbon\Carbon;
 use Feikwok\InvoiceNode\Events\InvoiceHasBeenIssued;
 use Feikwok\InvoiceNode\Events\InvoiceHasBeenPaid;
 use Feikwok\InvoiceNode\Events\InvoicePaymentCheckFailed;
 use Feikwok\InvoiceNode\Models\Invoice;
 use Feikwok\InvoiceNode\Models\Payment;
+use Feikwok\InvoiceNode\Notifications\CustomerOptForBankTransfer;
 use Feikwok\InvoiceNode\Services\StripeApiService;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
@@ -58,10 +60,10 @@ class InvoicesController extends Controller
             return redirect()->back();
         }
 
-        $qrImage = QrCode::format('png')->size(200)->generate(url('/innov/invoice/'.$invoice->ref.'/payment'));
+        $qrImage = QrCode::format('png')->size(200)->generate(url('/innov/invoices/'.$invoice->ref.'/payment'));
 
         $pdf = \App::make('dompdf.wrapper');
-        $pdf = $pdf->loadHTML(view('invoice-node::invoice.'.$invoice->template, ['invoice' => $invoice, 'qrImage' => $qrImage])->render());
+        $pdf = $pdf->loadHTML(view($invoice->template, ['invoice' => $invoice, 'qrImage' => $qrImage])->render());
         return $pdf->setPaper('a4')->stream();
     }
 
@@ -176,6 +178,13 @@ class InvoicesController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Resend customer email
+     *
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function resendMail($id, Request $request)
     {
         if ($request->has('event')) {
@@ -193,6 +202,27 @@ class InvoicesController extends Controller
             }
         }
 
+        return redirect()->back();
+    }
+
+    /**
+     * Update invoice as direct bank transfer
+     *
+     * @param $ref
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function bankTransfer($ref, Request $request)
+    {
+        $invoice = Invoice::where('ref', $ref)->first();
+        if (!empty($invoice)) {
+            $invoice->update([
+                'status' => 'pending payment confirmation',
+            ]);
+
+            // Need to notify the admin/trader
+            User::find($invoice->created_by)->notify(new CustomerOptForBankTransfer($invoice));
+        }
         return redirect()->back();
     }
 }
