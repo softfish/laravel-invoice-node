@@ -93,13 +93,20 @@
                             <div id="warning-msg" class="modal fade" role="dialog">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
-                                        <div class="modal-header">
+                                        <div class="modal-header bg-primary">
                                             <h4>DIRECT BANK TRANSFER CONFIMRATION</h4>
                                         </div>
                                         <div class="modal-body">
                                             <p class="alert alert-warning">
                                                 By clicking confirm button below, you are acknowledge that you have make a direct bank transfer payment
                                                 to the bank account instructed by this invoice you have received.
+                                            </p>
+                                            <p class="alert alert-default">
+                                                The invoice would not considered to be paid until the transaction is cleared by the bank.
+                                            </p>
+                                            <p class="alert text-default">
+                                                If you have any question please contact the vendor by using the contact information, which
+                                                shown on the invoice.
                                             </p>
                                         </div>
                                         <div class="modal-footer">
