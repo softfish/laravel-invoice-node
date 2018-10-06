@@ -31,6 +31,7 @@ class InvoicePaidWithBankTransfer extends Mailable
      */
     public function build()
     {
-        return $this->view('invoice-node::email.banktransfer-notification', ['invoice' => $this->invoice]);
+        return $this->subject('Payment With Direct Transfer Notification')
+                    ->view('invoice-node::email.banktransfer-notification', ['invoice' => $this->invoice]);
     }
 }

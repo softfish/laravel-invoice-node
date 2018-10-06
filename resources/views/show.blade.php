@@ -142,6 +142,13 @@
                                         >
                                             CANCELLED
                                         </div>
+                                        <div class="btn"
+                                             :class="{'btn-primary':(invoice.status === 'paid'), 'btn-default': (invoice.status != 'paid')}"
+                                             :disabled="(!invoice.is_editable && !editOverwrite)"
+                                             v-on:click="markInvoicePaid()"
+                                        >
+                                            PAID
+                                        </div>
                                     </div>
 
                                     @if (!$invoice->is_editable && Auth::user()->hasPermissionTo('invoice edit overwrite'))

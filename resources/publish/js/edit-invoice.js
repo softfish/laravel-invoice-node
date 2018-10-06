@@ -18000,6 +18000,29 @@ new Vue({
                 _this6.toggleLoadingMask();
             });
         },
+        markInvoicePaid: function markInvoicePaid() {
+            var _this7 = this;
+
+            this.toggleLoadingMask();
+            this.refreshAlert();
+            this.invoice.status = 'paid';
+            axios.put('/api/invoices/' + this.invoice.id, this.invoice).then(function (response) {
+                response = response.data;
+                if (response.success) {
+                    _this7.alert.message = 'Invoice has been marked as paid.';
+                    _this7.alert.type = 'success';
+                    _this7.invoice = response.invoice;
+                } else {
+                    _this7.alert.message = response.error;
+                    _this7.alert.type = 'error';
+                }
+                _this7.toggleLoadingMask();
+            }).catch(function (error) {
+                console.log(error);
+                alert(error);
+                _this7.toggleLoadingMask();
+            });
+        },
         refreshAlert: function refreshAlert() {
             this.alert = {
                 message: null,

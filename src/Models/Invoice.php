@@ -2,10 +2,14 @@
 
 namespace Feikwok\InvoiceNode\Models;
 
+use App\Models\User;
 use Feikwok\InvoiceNode\Events\InvoiceHasBeenIssued;
+use Feikwok\InvoiceNode\Mail\InvoicePaidWithBankTransfer;
+use Feikwok\InvoiceNode\Notifications\InvoicePaidNotification;
 use Firebase\JWT\JWT;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -49,6 +53,11 @@ class Invoice extends Model
             }
             if ($model->status === 'paid' && empty($model->issued_at)) {
                 $model->issued_at = Carbon::now()->format('Y-m-d h:i:s');
+                Notification::send(User::find($model->created_by), new InvoicePaidNotification($model));
+            }
+            if ($model->status === 'pending bank') {
+                Mail::to(User::find($model->created_by))
+                            ->queue(new InvoicePaidWithBankTransfer($model));
             }
 
             if ($model->tax_rate > 0 && !$model->is_taxable) {
@@ -132,7 +141,7 @@ class Invoice extends Model
      */
     public function getIsEditableAttribute()
     {
-        return in_array($this->status, ['pending', 'new']);
+        return in_array($this->status, ['pending', 'new', 'pending payment confirmation']);
     }
 
     public function getTaxAttribute()
