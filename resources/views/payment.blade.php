@@ -122,26 +122,28 @@
                     </div>
 
                     <div class="text-right col-6 float-left">
-                        <form method="post">
-                            <input type="hidden" name="ref" value="{{ $invoice->ref }}">
-                            <input type="hidden" name="sessionId" value="{{$sessionId}}">
-                            <div class="payment-btn">
-                                @if(file_exists(public_path().'/vendor/feikwok/laravel-invoice-node/images/stripepayment-logo.png'))
-                                    <img  width="60px" src="{{ asset('/vendor/feikwok/laravel-invoice-node/images/stripepayment-logo.png') }}" />
-                                @endif
-                                <script src="https://checkout.stripe.com/checkout.js"
-                                        class="stripe-button"
-                                        data-key="<?= config('invoice-node.payment_gateway.stripe.api_key') ?>"
-                                        data-amount="<?= number_format($invoice->total_amount,2) * 100 ?>"
-                                        data-name="Payment to Invoice"
-                                        data-description="Payment For Invoice ('<?= $invoice->ref ?>')"
-                                        @if (false)
-                                            data-image="/128x128.png"
-                                        @endif
-                                    >
-                                </script>
-                            </div>
-                        </form>
+                        @if ($invoice->enable_cc)
+                            <form method="post">
+                                <input type="hidden" name="ref" value="{{ $invoice->ref }}">
+                                <input type="hidden" name="sessionId" value="{{$sessionId}}">
+                                <div class="payment-btn">
+                                    @if(file_exists(public_path().'/vendor/feikwok/laravel-invoice-node/images/stripepayment-logo.png'))
+                                        <img  width="60px" src="{{ asset('/vendor/feikwok/laravel-invoice-node/images/stripepayment-logo.png') }}" />
+                                    @endif
+                                    <script src="https://checkout.stripe.com/checkout.js"
+                                            class="stripe-button"
+                                            data-key="<?= config('invoice-node.payment_gateway.stripe.api_key') ?>"
+                                            data-amount="<?= number_format($invoice->total_amount,2) * 100 ?>"
+                                            data-name="Payment to Invoice"
+                                            data-description="Payment For Invoice ('<?= $invoice->ref ?>')"
+                                            @if (false)
+                                                data-image="/128x128.png"
+                                            @endif
+                                        >
+                                    </script>
+                                </div>
+                            </form>
+                        @endif
                     </div>
                 @elseif($invoice->status === 'paid')
                     <label class="invoice-paid-message badge badge-default">INVOICE HAS BEEN PAID. NO ACTION IS REQUIRED.</label>

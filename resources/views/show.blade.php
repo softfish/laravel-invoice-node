@@ -118,6 +118,10 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>Enable CC Payment <i class="">!</i></td>
+                                <td><input type="checkbox" v-model="invoice.enable_cc"></td>
+                            </tr>
+                            <tr>
                                 <td></td>
                                 <td class="text-right">
                                     <div class="btn-group">
@@ -141,13 +145,6 @@
                                              v-on:click="cancelInvoice()"
                                         >
                                             CANCELLED
-                                        </div>
-                                        <div class="btn"
-                                             :class="{'btn-primary':(invoice.status === 'paid'), 'btn-default': (invoice.status != 'paid')}"
-                                             :disabled="(!invoice.is_editable && !editOverwrite)"
-                                             v-on:click="markInvoicePaid()"
-                                        >
-                                            PAID
                                         </div>
                                     </div>
 
