@@ -118,6 +118,14 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>Enable CC Payment
+                                    <a href="#" data-toggle="tooltip" title="Enable CC Payment will allow customer to be able to pay by credit card.">
+                                        <i class="fa fa-exclamation-circle"></i>
+                                    </a>
+                                </td>
+                                <td><input type="checkbox" v-model="invoice.enable_cc"></td>
+                            </tr>
+                            <tr>
                                 <td></td>
                                 <td class="text-right">
                                     <div class="btn-group">
@@ -271,5 +279,11 @@
         opacity: 0;
     }
 </style>
+
+<script>
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
 
 @endsection

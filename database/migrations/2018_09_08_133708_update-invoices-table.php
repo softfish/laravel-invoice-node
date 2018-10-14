@@ -13,15 +13,17 @@ class UpdateInvoicesTable extends Migration
      */
     public function up()
     {
-        Schema::table('innov_invoices', function (Blueprint $table) {
-            $table->unsignedInteger('created_by')->default(1);
-            $table->unsignedInteger('updated_by')->nullable();
-            $table->unsignedInteger('deleted_by')->nullable();
+        if (Schema::hasTable('innov_invoices')) {
+            Schema::table('innov_invoices', function (Blueprint $table) {
+                $table->unsignedInteger('created_by')->default(1);
+                $table->unsignedInteger('updated_by')->nullable();
+                $table->unsignedInteger('deleted_by')->nullable();
 
-            $table->foreign('created_by')->references('id')->on('users');
-            $table->foreign('updated_by')->references('id')->on('users');
-            $table->foreign('deleted_by')->references('id')->on('users');
-        });
+                $table->foreign('created_by')->references('id')->on('users');
+                $table->foreign('updated_by')->references('id')->on('users');
+                $table->foreign('deleted_by')->references('id')->on('users');
+            });
+        }
     }
 
     /**

@@ -38,6 +38,7 @@ class UpdateInvoiceRequest extends FormRequest
             'is_taxable' => 'required|boolean',
             'tax_rate' => 'required_if:is_taxable,true|numeric',
             'template' => 'required|max:150',
+            'enable_cc' => 'boolean',
         ];
     }
 }
