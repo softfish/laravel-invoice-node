@@ -25,7 +25,7 @@ class InstallInvoiceNodeTables extends Migration
                 $table->string('address', 255);
                 $table->boolean('is_taxable')->default(false);
                 $table->double('tax_rate')->default(0.0);
-                $table->string('template', 150)->default('default');
+                $table->string('template', 150)->default('invoice-node::invoice.default');
                 $table->dateTime('issued_at')->nullable();
                 $table->string('status', 50)->default('new');
 

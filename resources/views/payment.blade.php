@@ -151,10 +151,10 @@
                     <label class="invoice-paid-message badge badge-default">PENDING DIRECT TRANSFER PAYMENT CONFIRMATION.</label>
                     <p class="mt-5">
                         You have selected the direct bank transfer method for payment. This payment method required staff to confirm the payment
-                        has been deposit the our norminated bank account.
+                        has been deposited the our norminated bank account.
                     </p>
                     <p class="mt-1">
-                        This invoice's status will be updated to PAID once the confirmation is completed.
+                        The invoice's status will be updated to PAID once the confirmation is completed.
                     </p>
                 @else
                     <div clas="col-md-12 text-center">
