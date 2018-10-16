@@ -137,7 +137,7 @@
                             <div><strong>A/C:</strong> {{ config('invoice-node.bank_account_number') }}</div>
                             <p class="fine-print">* IMPORTANT: Direct bank transfer might take a few day to confirm the payment.</p>
                         </div>
-                        <img style="position: absolute; right:20px; top: 0px;" src="data:image/png;base64, {{ base64_encode($qrImage) }} ">
+                        <img style="position: absolute; right:230px; top: 0px;" src="data:image/png;base64, {{ base64_encode($qrImage) }} ">
                     </td>
                     <td style="text-align: right;">
                         <table class="invoice-conclusion">

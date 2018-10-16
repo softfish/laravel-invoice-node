@@ -15,7 +15,7 @@ class AddEnableCcColToInvoiceTable extends Migration
     {
         if (Schema::hasTable('innov_invoices')) {
             Schema::table('innov_invoices', function(Blueprint $table){
-                $table->boolean('enable_cc')->after('status');
+                $table->boolean('enable_cc')->after('status')->default(false);
             });
         }
     }
