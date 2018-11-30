@@ -128,16 +128,24 @@
         <div>
             <table style="width: 100%; margin-top: 120px; padding: 15px; border-top: 1px dashed #ddd;">
                 <tr>
-                    <td class="left" style="position:relative;">
-                        <div>
-                            <h3>How to Pay</h3>
-                            <h4>Via EFT or<br> Scan the QR Code</h4>
-                            <div><strong>Bank: </strong> {{ config('invoice-node.bank_name') }}</div>
-                            <div><strong>BSB:</strong> {{ config('invoice-node.bsb') }}</div>
-                            <div><strong>A/C:</strong> {{ config('invoice-node.bank_account_number') }}</div>
-                            <p class="fine-print">* IMPORTANT: Direct bank transfer might take a few day to confirm the payment.</p>
-                        </div>
-                        <img style="position: absolute; right:20px; top: 0px;" src="data:image/png;base64, {{ base64_encode($qrImage) }} ">
+                    <td class="left">
+                        <table>
+                            <tr>
+                                <td style="width:250px;">
+                                    <div>
+                                        <h3>How to Pay</h3>
+                                        <h4>Via EFT or<br> Scan the QR Code</h4>
+                                        <div><strong>Bank: </strong> {{ config('invoice-node.bank_name') }}</div>
+                                        <div><strong>BSB:</strong> {{ config('invoice-node.bsb') }}</div>
+                                        <div><strong>A/C:</strong> {{ config('invoice-node.bank_account_number') }}</div>
+                                        <p class="fine-print">* IMPORTANT: Direct bank transfer might take a few day to confirm the payment.</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <img src="data:image/png;base64, {{ base64_encode($qrImage) }} ">
+                                </td>
+                            </tr>
+                        </table>
                     </td>
                     <td style="text-align: right;">
                         <table class="invoice-conclusion">

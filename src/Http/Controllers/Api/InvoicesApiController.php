@@ -103,6 +103,7 @@ class InvoicesApiController extends Controller
                 'tax_rate' => $request->get('tax_rate'),
                 'template' => $request->get('template'),
                 'status' => $request->get('status'),
+                'enable_cc' => $request->get('enable_cc'),
             ]);
 
             switch($invoice->status) {

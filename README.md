@@ -84,7 +84,7 @@ invoice pdf copy.
 You can drop as many as custom invocie pdf template into the following folder. The package will check all the blade files insider this folder and register them all as available invoice template options.
 
 ```$xslt
-/resources/views/innov/invoice_templates/
+/resources/views/innov/invoice-templates/
 ```
 
 ## Search and Filter

@@ -2,14 +2,10 @@
 
 namespace Feikwok\InvoiceNode\Models;
 
-use App\Models\User;
 use Feikwok\InvoiceNode\Events\InvoiceHasBeenIssued;
-use Feikwok\InvoiceNode\Mail\InvoicePaidWithBankTransfer;
-use Feikwok\InvoiceNode\Notifications\InvoicePaidNotification;
 use Firebase\JWT\JWT;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -28,6 +24,7 @@ class Invoice extends Model
         'is_taxable',
         'tax_rate',
         'template',
+        'enable_cc',
     ];
 
     protected $appends = ['is_editable', 'tax', 'subtotal', 'total_amount'];
@@ -53,11 +50,6 @@ class Invoice extends Model
             }
             if ($model->status === 'paid' && empty($model->issued_at)) {
                 $model->issued_at = Carbon::now()->format('Y-m-d h:i:s');
-                Notification::send(User::find($model->created_by), new InvoicePaidNotification($model));
-            }
-            if ($model->status === 'pending bank') {
-                Mail::to(User::find($model->created_by))
-                            ->queue(new InvoicePaidWithBankTransfer($model));
             }
 
             if ($model->tax_rate > 0 && !$model->is_taxable) {
@@ -111,11 +103,11 @@ class Invoice extends Model
         }
 
         // Include custom templates.
-        if (file_exists(resource_path('views/innov/invoice_templates'))) {
-            $customFiles = scandir(resource_path('views/innov/invoice_templates'));
+        if (file_exists(resource_path('views/innov/invoice-templates'))) {
+            $customFiles = scandir(resource_path('views/innov/invoice-templates'));
             foreach ($customFiles as $fileName) {
                 if (str_contains($fileName, '.blade.php')) {
-                    $templates[] = 'innov.invoice_templates.'.str_replace('.blade.php', '', $fileName);
+                    $templates[] = 'innov.invoice-templates.'.str_replace('.blade.php', '', $fileName);
                 }
             }
         }
@@ -130,7 +122,7 @@ class Invoice extends Model
      */
     public function getInvoiceTemplateLabel($template_name)
     {
-        return str_replace('innov.invoice_templates.', '',
+        return str_replace('innov.invoice-templates.', '',
                     str_replace('invoice-node::invoice.',  '',
                         str_replace('_', ' ', $template_name))
                 );
@@ -141,20 +133,20 @@ class Invoice extends Model
      */
     public function getIsEditableAttribute()
     {
-        return in_array($this->status, ['pending', 'new', 'pending payment confirmation']);
+        return in_array($this->status, ['pending', 'new', '']);
     }
 
     public function getTaxAttribute()
     {
         if ($this->is_taxable) {
-            return $this->subtotal * $this->tax_rate;
+            return (double) $this->subtotal * $this->tax_rate;
         }
-        return 0;
+        return 0.0;
     }
 
     public function getSubtotalAttribute()
     {
-        $subtotal = 0;
+        $subtotal = 0.0;
         foreach ($this->bill_entries as $bill) {
             if ($bill->charge != null) {
                 $subtotal += $bill->charge;

@@ -123,11 +123,14 @@
                                         <i class="fa fa-exclamation-circle"></i>
                                     </a>
                                 </td>
-                                <td><input type="checkbox" v-model="invoice.enable_cc"></td>
+                                <td>
+                                    <input type="checkbox" v-model="invoice.enable_cc">
+                                </td>
+
                             </tr>
                             <tr>
                                 <td></td>
-                                <td class="text-right">
+                                <td class="actions text-right">
                                     <div class="btn-group">
                                         <div class="btn"
                                              :class="{'btn-primary': (invoice.is_editable), 'btn-default': !invoice.is_editable}"
@@ -149,6 +152,13 @@
                                              v-on:click="cancelInvoice()"
                                         >
                                             CANCELLED
+                                        </div>
+                                        <div class="btn"
+                                             :class="{'btn-primary':(invoice.status === 'paid'), 'btn-default': (invoice.status != 'paid')}"
+                                             :disabled="(!invoice.is_editable && !editOverwrite)"
+                                             v-on:click="markInvoicePaid()"
+                                        >
+                                            PAID
                                         </div>
                                     </div>
 
